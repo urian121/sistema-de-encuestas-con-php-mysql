@@ -116,7 +116,6 @@
     /**
      * Obtener la IP real
      */
-
     function obtenerIpUsuarioServer()
     {
         if (!empty($_SERVER['HTTP_CLIENT_IP']) && filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) !== false) {
