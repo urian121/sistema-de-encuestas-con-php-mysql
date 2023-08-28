@@ -1,0 +1,21 @@
+.box_shadox {
+  padding: 0px !important;
+  border-top: 4px solid #4154f1;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.checkbox_encuesta {
+  margin-left: 12px;
+  padding: 5px;
+}
+.form-check-input {
+  font-size: 25px !important;
+}
+.btnsFlexbox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.thank_voto {
+  color: #777 !important;
+}
