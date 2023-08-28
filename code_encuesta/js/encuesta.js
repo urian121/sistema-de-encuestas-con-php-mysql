@@ -62,7 +62,7 @@ function copiarTexto() {
   navigator.clipboard
     .writeText(texto)
     .then(() => {
-      alert("Link copiado!");
+      alertSuccess("Link copiado!");
     })
     .catch((error) => {
       console.error("Error al copiar el texto: ", error);
@@ -74,9 +74,8 @@ function copiarTexto() {
  */
 function procesarVotacion(buttonElement, code_encuesta) {
   var opciones = document.querySelectorAll('input[type="radio"]:checked');
-
   if (opciones.length === 0) {
-    alert("Selecciona una opción antes de votar.");
+    alertDanger("Debe seleccionar una opción antes de votar");
     return;
   }
 
@@ -94,7 +93,7 @@ function procesarVotacion(buttonElement, code_encuesta) {
     .then((response) => {
       resp = response.data.respuesta;
       if (resp == "ya voto") {
-        alert("Ya ha participado en esta encuesta.");
+        alertDanger("Ya ha participado en esta encuesta");
         console.log("ya voto");
       } else if (resp == "ok") {
         setTimeout(function () {
@@ -112,6 +111,48 @@ function procesarVotacion(buttonElement, code_encuesta) {
   return false;
 }
 
+function alertDanger(msj) {
+  const alertHTML = `
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle"></i>
+            ${msj}
+        </div>
+    `;
+
+  const divContenedor = document.querySelector(".btnsFlexbox");
+  divContenedor.insertAdjacentHTML("beforebegin", alertHTML);
+
+  const mensajeAlerta = divContenedor.previousElementSibling;
+
+  setTimeout(() => {
+    if (mensajeAlerta) {
+      mensajeAlerta.remove();
+    }
+  }, 5000);
+}
+
+/**
+ * Funcion para retornar una alerta tipo success
+ */
+function alertSuccess(msj) {
+  const alertHTML = `
+        <div class="alert alert-success" role="alert">
+             <i class="bi bi-check2-circle"></i>
+            ${msj}
+        </div>
+    `;
+
+  const divContenedor = document.querySelector(".btnsFlexbox");
+  divContenedor.insertAdjacentHTML("beforebegin", alertHTML);
+
+  const mensajeAlerta = divContenedor.previousElementSibling;
+
+  setTimeout(() => {
+    if (mensajeAlerta) {
+      mensajeAlerta.remove();
+    }
+  }, 5000);
+}
 /**
  *
  */
@@ -136,4 +177,13 @@ if (inputs.length > 0) {
       }
     });
   });
+}
+
+/**
+ * Verificar si existe alguna alerta alert-success
+ */
+if (document.querySelector(".alert-success")) {
+  setTimeout(function () {
+    document.querySelector(".alert-success").remove();
+  }, 5000);
 }

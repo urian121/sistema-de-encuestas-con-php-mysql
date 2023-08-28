@@ -27,7 +27,16 @@
      * Verificando si esta presente el codigo de la encuesta
      */
     include('code_encuesta/acciones_encuesta.php');
-    $URL_actual = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+    if ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], 'tudominio.com') !== false) {
+        $URL_actual = "http://localhost/sistema-encuestas/tu_encuesta.php?encuesta=" . $code_encuesta;
+        // echo "El proyecto se está ejecutando en localhost.";
+    } else {
+        $URL_actual = "https://encuestalocal.com/tu_encuesta.php?encuesta=" . $code_encuesta;
+        //echo "El proyecto se está ejecutando en un dominio remoto.";
+    }
+
+
     $resultadoDetalleEncuesta = obtenerEncuesta($con, $code_encuesta);
     $resultadoPreguntas = obtenerPreguntas($con, $code_encuesta);
     include('modal.php');

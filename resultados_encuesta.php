@@ -49,16 +49,28 @@
                         <div class="mb-5" style="width: 80%; margin:0 auto;">
                             <h5>Resultados de la votaci&oacute;n</h5>
                             <?php
-                            while ($row = mysqli_fetch_assoc($resultadoRespuestas)) { ?>
-                                <label class="mt-4" for="<?php echo $row['total_respuestas']; ?>" style="display: flex; justify-content: space-between;">
-                                    <span><?php echo $row['opcion_encuesta']; ?></span>
-                                    <span>20% (<?php echo $row['total_respuestas']; ?> Votos)</span>
-                                </label>
-                                <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                    <div class="progress-bar bg-success" style="width: 100%"></div>
-                                </div>
+                            $contador = 0; // Inicializar el contador
+                            while ($row = mysqli_fetch_assoc($resultadoRespuestas)) {
+                                $porcentajeVotaron = ($row['total_respuestas'] / 100) * 100;
+                                $contador++; // Incrementar el contador 
+                            ?>
+                                <span id="<?php echo $row['id_pregunta']; ?>">
+                                    <label class="mt-4" for="<?php echo $row['total_respuestas']; ?>" style="display: flex; justify-content: space-between;">
+                                        <span><?php echo $row['opcion_encuesta']; ?></span>
+                                        <span><?php echo $porcentajeVotaron; ?>% (<?php echo $row['total_respuestas']; ?> Votos)</span>
+                                    </label>
+                                    <div id="progre_<?php echo $contador; ?>">
+                                        <div id="progress" class="progress" style="width:100%;">
+                                            <div id="progress-bar" class="progress-bar bg-info text-dark" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+                                                <span id="texto"> </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
                             <?php   } ?>
                             <hr>
+
+
                             <div class="form-group btnsFlexbox">
                                 <a href="resultados_encuesta.php?encuesta=<?php echo $code_encuesta; ?>" class="btn btn-primary mt-4">
                                     Actualizar resultados
@@ -86,6 +98,32 @@
 
     <?php include('includes/js.html'); ?>
     <script src="code_encuesta/js/encuesta.js"></script>
+    <script>
+        function CargarBarra() {
+            var increment = 1;
+            for (var contador = 1; contador <= <?php echo $contador; ?>; contador++) {
+                var pb = document.getElementById("progre_" + contador).querySelector("#progress-bar");
+                var p = document.getElementById("progre_" + contador).querySelector("#progress");
+
+                var pbw = parseInt(pb.style.width);
+                var pw = parseInt(p.style.width);
+
+                if (pbw >= pw) {
+                    clearInterval(barraprogreso);
+                    pb.setAttribute("class", "progress-bar bg-info text-dark");
+                } else {
+                    pbw += increment;
+                    pb.style.width = pbw + "%";
+                    pb.setAttribute("aria-valuenow", pbw);
+                }
+
+                var textElement = document.getElementById("progre_" + contador).querySelector("#texto");
+                textElement.innerHTML = pbw + "%";
+            }
+        }
+
+        var barraprogreso = setInterval(CargarBarra, 20);
+    </script>
 </body>
 
 </html>

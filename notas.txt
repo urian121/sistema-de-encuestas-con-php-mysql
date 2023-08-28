@@ -1,1 +1,9 @@
 https://strawpoll.com/es/
+https://encuestalocal.com/
+
+
+$totalPersonasVotaron = 25; // Total de personas que votaron
+$totalPersonasPosibles = 100; // Total de personas posibles (hipotético)
+
+$porcentajeVotaron = ($totalPersonasVotaron / $totalPersonasPosibles) * 100;
+echo "Porcentaje de personas que votaron: " . $porcentajeVotaron . "%";
