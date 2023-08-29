@@ -29,7 +29,6 @@
                                     <label for="titulo_encuesta" class="form-label">Título de la encuesta</label>
                                     <input type="text" name="titulo_encuesta" class="form-control" required />
                                 </div>
-
                                 <div class="col-md-12">
                                     <label for="tipo_encuesta" class="form-label">Tipo de encuesta</label>
                                     <select name="tipo_encuesta" class="form-control">
@@ -40,10 +39,10 @@
 
                                 <div class="col-md-12">
                                     <label for="Opciones de respuesta">Opciones de respuesta</label>
-                                    <input type="text" name="encuesta[]" class="form-control" placeholder="Opción 1" />
+                                    <input type="text" name="encuesta[]" class="form-control" placeholder="Opción 1" required />
                                 </div>
                                 <div class="col-md-12">
-                                    <input type="text" name="encuesta[]" class="form-control" placeholder="Opción 2" />
+                                    <input type="text" name="encuesta[]" class="form-control" placeholder="Opción 2" required />
                                 </div>
 
                                 <div id="nuevasOpciones"></div>
@@ -54,30 +53,53 @@
                                         Añadir opción
                                     </button>
                                 </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="col-md-6">
+                                        <label for="fecha_finalizacion" class="form-label">Fijar la fecha de finalización</label>
+                                        <input type="datetime-local" name="fecha_finalizacion" class="form-control" required />
+                                        <div x-show="error"> </div>
+                                    </div>
+                                </div>
                                 <hr>
-                                <span>Ajustes</span>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" role="switch">
-                                    <label class="form-check-label checkbox_encuesta" for="flexSwitchCheckChecked">Solicitar los nombres de los participantes</label>
-                                </div>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" role="switch">
-                                    <label class="form-check-label checkbox_encuesta" for="flexSwitchCheckChecked">Fijar la fecha de finalización</label>
-                                </div>
-                                <div class="col-md-12">
-                                    <label for="fecha_finalizacion" class="form-label">Fijar la fecha de finalización</label>
-                                    <input type="datetime-local" name="fecha_finalizacion" class="form-control" @blur="setDateTime()" />
-                                    <div x-show="error"> </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label for="tipo_encuesta" class="form-label">Visibilidad de los resultados</label>
-                                    <select name="visibilidad_resultados" class="form-control">
-                                        <option value="Siempre publico">Siempre p&uacute;plico</option>
-                                        <option value="Público después del plazo">Público después del plazo</option>
-                                    </select>
+
+                                <span><strong>Ajustes</strong> (opcional)</span>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch" style="padding-left: 24px;">
+                                            <input type="checkbox" name="solicitar_nombre_participante" id="solicitar_nombre_participante" class="form-check-input" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                            <label class="form-check-label checkbox_encuesta" for="solicitar_nombre_participante">Solicitar los nombres de los participantes</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-check form-switch">
+                                            <input name="permitir_comentarios" id="permitir_comentarios" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                            <label class="form-check-label checkbox_encuesta" for="permitir_comentarios">Permitir comentarios</label>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="d-grid gap-2">
+                                <div class="d-flex justify-content-between">
+                                    <div class="col-md-5">
+                                        <label for="visibilidad_resultados" class="form-label">Visibilidad de los resultados</label>
+                                        <select name="visibilidad_resultados" class="form-control">
+                                            <option value="Siempre publico">Siempre p&uacute;plico</option>
+                                            <option value="Público después del plazo">Público después del plazo</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label for="duplicados_de_voz" class="form-label">Comprobación de duplicados de voz</label>
+                                        <select name="duplicados_de_voz" class="form-control">
+                                            <option value="none">Ninguno</option>
+                                            <option value="Sesion del navegador">Sesión del navegador</option>
+                                            <option value="Direccion IP" selected>Dirección IP</option>
+                                            <option value="Un voto por cuenta de usuario">Un voto por cuenta de usuario</option>
+                                            <option value="Solo por invitacion">Sólo por invitación</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid gap-2 mt-3">
                                     <button class="btn btn-primary" type="submit">
                                         Crear mi encuesta
                                         <i class="bi bi-arrow-right-circle"></i>
@@ -93,11 +115,10 @@
 
 
 
-
-
     <?php include('includes/footer.html'); ?>
     <?php include('includes/js.html'); ?>
     <script src="code_encuesta/js/encuesta.js"></script>
+
 </body>
 
 </html>

@@ -11,7 +11,9 @@
     {
         $sqlEncuesta = "SELECT
                     e.code_encuesta,
-                    e.titulo_encuesta
+                    e.titulo_encuesta,
+                    e.created_at,
+                    e.fecha_finalizacion
                 FROM tbl_encuestas AS e
                 WHERE e.code_encuesta ='" . mysqli_real_escape_string($con, $code_encuesta) . "'";
         $queryEncuesta = mysqli_query($con, $sqlEncuesta);

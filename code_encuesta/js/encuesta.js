@@ -96,6 +96,7 @@ function procesarVotacion(buttonElement, code_encuesta) {
         alertDanger("Ya ha participado en esta encuesta");
         console.log("ya voto");
       } else if (resp == "ok") {
+        alertSuccess("La votaci&oacute;n fue un exito");
         setTimeout(function () {
           buttonElement.innerHTML =
             "Votar <i class='bi bi-arrow-right-circle'></i>";

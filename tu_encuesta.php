@@ -62,6 +62,7 @@
                             <strong>
                                 <?php echo $resultadoDetalleEncuesta['titulo_encuesta']; ?>
                             </strong>
+                            <p style="font-size: 12px;" id="date_created_at">La encuesta fue creada hace</p>
                             <hr>
                         </h3>
 
@@ -70,13 +71,14 @@
                             <div>Elige una respuesta:</div>
                             <?php
                             while ($row = mysqli_fetch_assoc($resultadoPreguntas)) { ?>
-                                <div class="form-check" id="<?php echo $row['id_pregunta']; ?>" style="padding: 5px 20px;">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" data-opcion="<?php echo $row['opcion_encuesta'];  ?>" id=" <?php echo $row['id_pregunta']; ?>">
+                                <div class="form-check checkboxContainer" id="<?php echo $row['id_pregunta']; ?>" style="padding: 5px 20px;">
                                     <label class="form-check-label" style="padding: 5px 0px;" for="<?php echo $row['id_pregunta']; ?>">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id=" <?php echo $row['id_pregunta']; ?>">
                                         <?php echo $row['opcion_encuesta'];  ?>
                                     </label>
                                 </div>
                             <?php   } ?>
+
                             <hr>
                             <div class="form-group btnsFlexbox">
                                 <button class="btn btn-primary mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>')">
@@ -105,7 +107,59 @@
 
 
     <?php include('includes/js.html'); ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="code_encuesta/js/encuesta.js"></script>
+    <script src="code_encuesta/js/scripts.js"></script>
+    <script>
+        // Ejemplo de fecha obtenida desde tu formulario (debes ajustar esto según tu caso)
+        var fechaCreacionString = "<?php echo $resultadoDetalleEncuesta['created_at']; ?>";
+        var fechaFinalizacionString = "<?php echo $resultadoDetalleEncuesta['fecha_finalizacion']; ?>";
+
+        // Convertir las fechas en objetos Date
+        var fechaCreacion = new Date(fechaCreacionString);
+        var fechaFinalizacion = new Date(fechaFinalizacionString);
+
+        // Calcular la diferencia en milisegundos entre la fecha de creación y el momento actual
+        var diferenciaMilisegundos = new Date() - fechaCreacion;
+
+        // Calcular los componentes de tiempo transcurrido (días, horas, minutos, segundos)
+        var diasTranscurridos = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
+        var horasTranscurridas = Math.floor((diferenciaMilisegundos % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutosTranscurridos = Math.floor((diferenciaMilisegundos % (1000 * 60 * 60)) / (1000 * 60));
+        var segundosTranscurridos = Math.floor((diferenciaMilisegundos % (1000 * 60)) / 1000);
+
+        // Construir el mensaje con el tiempo transcurrido
+        var mensajeTranscurrido = "La encuesta fue creada hace ";
+        if (diasTranscurridos > 0) {
+            mensajeTranscurrido += `${diasTranscurridos} días, `;
+        }
+        if (horasTranscurridas > 0 || diasTranscurridos > 0) {
+            mensajeTranscurrido += `${horasTranscurridas} horas, `;
+        }
+        mensajeTranscurrido += `${minutosTranscurridos} minutos, ${segundosTranscurridos} segundos.`;
+
+        // Calcular la diferencia en milisegundos entre la fecha de finalización y el momento actual
+        var tiempoRestanteMilisegundos = fechaFinalizacion - new Date();
+
+        // Calcular los componentes de tiempo restante (días, horas, minutos, segundos)
+        var diasRestantes = Math.floor(tiempoRestanteMilisegundos / (1000 * 60 * 60 * 24));
+        var horasRestantes = Math.floor((tiempoRestanteMilisegundos % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutosRestantes = Math.floor((tiempoRestanteMilisegundos % (1000 * 60 * 60)) / (1000 * 60));
+        var segundosRestantes = Math.floor((tiempoRestanteMilisegundos % (1000 * 60)) / 1000);
+
+        // Construir el mensaje con el tiempo restante
+        var mensajeRestante = "Tiempo restante: ";
+        if (diasRestantes > 0) {
+            mensajeRestante += `${diasRestantes} días, `;
+        }
+        if (horasRestantes > 0 || diasRestantes > 0) {
+            mensajeRestante += `${horasRestantes} horas, `;
+        }
+        mensajeRestante += `${minutosRestantes} minutos, ${segundosRestantes} segundos.`;
+
+        document.getElementById("date_created_at").innerHTML = mensajeTranscurrido + "<br>" + mensajeRestante;
+    </script>
+
 </body>
 
 </html>

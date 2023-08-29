@@ -18,19 +18,39 @@ $code_encuesta = generarCodigoAleatorio();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
+    $permitirComentarios = isset($_POST["permitir_comentarios"]) ? 1 : 0;
+    $solicitar_nombre_participante = isset($_POST["solicitar_nombre_participante"]) ? 1 : 0;
     $titulo_encuesta = ucfirst($_POST['titulo_encuesta']);
-    $tipo_encuesta   = $_POST['tipo_encuesta'];
-    $SqlInsert = ("INSERT INTO tbl_encuestas(
-        code_encuesta,
-        titulo_encuesta,
-        tipo_encuesta
-        )
-        VALUES(
-        '" . $code_encuesta . "',
-        '" . $titulo_encuesta . "',
-        '" . $tipo_encuesta . "'
-        )");
+    $tipo_encuesta = $_POST['tipo_encuesta'];
+    $visibilidad_resultados = $_POST['visibilidad_resultados'];
+    $duplicados_de_voz = $_POST['duplicados_de_voz'];
+    // Convertir el formato de fecha
+    $fecha_finalizacion = isset($_POST["fecha_finalizacion"]) ? $_POST["fecha_finalizacion"] : '';
+    $fecha_finalizacion_formateada = date("Y-m-d H:i:s", strtotime($fecha_finalizacion));
+
+    $SqlInsert = "INSERT INTO tbl_encuestas (
+            code_encuesta,
+            titulo_encuesta,
+            tipo_encuesta,
+            permitir_comentarios,
+            solicitar_nombre_participante,
+            visibilidad_resultados,
+            duplicados_de_voz,
+            fecha_finalizacion
+        ) VALUES (
+            '$code_encuesta',
+            '$titulo_encuesta',
+            '$tipo_encuesta',
+            '$permitirComentarios',
+            '$solicitar_nombre_participante',
+            '$visibilidad_resultados',
+            '$duplicados_de_voz',
+            '$fecha_finalizacion_formateada'
+        )";
     $resulInsert = mysqli_query($con, $SqlInsert);
+
     if (!$resulInsert) {
         echo "Error en la consulta SQL: " . mysqli_error($con);
     } else {
@@ -51,7 +71,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "<script type='text/javascript'>
     window.location.href = '../tu_encuesta.php?encuesta=" . $code_encuesta . "&msj=success';
     </script>";
-    exit;
-
     exit;
 }
