@@ -20,3 +20,6 @@
 .thank_voto {
   color: #777 !important;
 }
+.form-switch .form-check-input {
+  width: 1.6em !important;
+}

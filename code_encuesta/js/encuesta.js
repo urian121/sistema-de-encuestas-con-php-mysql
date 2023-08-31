@@ -14,11 +14,45 @@ const agregarOpcion = () => {
 `);
 };
 
+let inicio = 2;
+const agregarOpcionImgs = () => {
+  console.log("click");
+  inicio++;
+
+  $("#nuevasOpcionesImg").append(`
+    <div class="col-md-6 text-center">
+        <span>Cargar imagen</span>
+        <label class="dropimage miniprofile">
+            <input type="file" name="encuesta[]" required accept="image/*" alt="Imagen-encuesta">
+        </label>
+        <input type="text" name="encuesta[]" class="form-control mt-1" placeholder="Opción ${inicio}"  required />
+    </div>
+    <div class="col-md-6 text-center">
+        <span>Cargar imagen</span>
+        <label class="dropimage miniprofile">
+            <input type="file" name="encuesta[]" required accept="image/*" alt="Imagen-encuesta">
+        </label>
+        <input type="text" name="encuesta[]" class="form-control mt-1" placeholder="Opción ${inicio}"  required />
+    </div>
+
+    <div class="col-md-6 text-center" id="opcion_${inicio}">
+    <button type="button" class="btn btn-warning mt-2 mb-2" onclick="borrarOption('${inicio}');"
+          style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+          <i class="bi bi-trash3-fill"></i>
+          Eliminar
+      </button>
+    </div>
+    `);
+};
+
 /**
  * Borrar option
  */
-const borrarOption = (valor) => {
-  $("#opcion_" + valor).remove();
+const borrarOption = (opcionId) => {
+  const opcion = document.querySelector(`#opcion_${opcionId}`);
+  if (opcion) {
+    opcion.remove();
+  }
 };
 
 function dateTimePicker(config) {
@@ -158,7 +192,7 @@ function alertSuccess(msj) {
  *
  */
 // Obtener una lista de todos los inputs en la página
-let inputs = document.querySelectorAll("input");
+let inputs = document.querySelectorAll("input[type='text']");
 if (inputs.length > 0) {
   // Iterar a través de la lista de inputs
   inputs.forEach(function (input) {

@@ -19,7 +19,32 @@ $code_encuesta = generarCodigoAleatorio();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    $targetDirectory = "../fotos_encuestas/";
 
+    if (!file_exists($targetDirectory)) {
+        mkdir($targetDirectory, 0755, true);
+    }
+
+    if (isset($_FILES['encuesta'])) {
+        $uploadedFiles = $_FILES['encuesta'];
+        // Recorremos todas las imágenes cargadas
+        foreach ($uploadedFiles['tmp_name'] as $key => $tmp_name) {
+            $originalFilename = $uploadedFiles['name'][$key];
+            $tmpFilePath = $uploadedFiles['tmp_name'][$key];
+
+            $extension = pathinfo($originalFilename, PATHINFO_EXTENSION);
+            $newFilename = uniqid() . '.' . $extension;
+
+            $newFilePath = $targetDirectory . $newFilename;
+
+            // Movemos la imagen al directorio destino
+            move_uploaded_file($tmpFilePath, $newFilePath);
+
+            // Aquí puedes realizar cualquier procesamiento adicional que necesites con la imagen
+        }
+    }
+
+    /*
     $permitirComentarios = isset($_POST["permitir_comentarios"]) ? 1 : 0;
     $solicitar_nombre_participante = isset($_POST["solicitar_nombre_participante"]) ? 1 : 0;
     $titulo_encuesta = ucfirst($_POST['titulo_encuesta']);
@@ -67,9 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $resulInsertOption = mysqli_query($con, $SqlInsertOption);
         }
     }
+    */
 
+    /*
     echo "<script type='text/javascript'>
     window.location.href = '../tu_encuesta.php?encuesta=" . $code_encuesta . "&msj=success';
     </script>";
     exit;
+    */
 }
