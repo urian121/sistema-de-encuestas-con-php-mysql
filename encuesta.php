@@ -47,57 +47,11 @@
                                 </div>
                             </div>
 
-                            <div class="row mt-3" id="opciones_encuesta_general">
-                                <div class="col-md-12">
-                                    <label for="Opciones de respuesta">Opciones de respuesta</label>
-                                    <input type="text" name="encuesta[]" class="form-control" placeholder="Opción 1" required />
-                                </div>
-                                <div class="col-md-12 mt-3 mb-3">
-                                    <input type="text" name="encuesta[]" class="form-control" placeholder="Opción 2" required />
-                                </div>
+                            <div class="row mt-3" id="opciones_encuesta_general"> </div>
 
-                                <div id="nuevasOpciones"></div>
-                                <div class="col-md-6 mt-3">
-                                    <button type="button" class="btn btn-primary" onclick="agregarOpcion()">
-                                        <i class="bi bi-plus"></i>
-                                        Añadir opción
-                                    </button>
-                                </div>
-                            </div>
+                            <div id="encuesta_img" class="row mt-4"> </div>
 
-                            <div id="encuesta_img" class="row mt-4" style="display: none;">
-                                <div class="col-md-12 text-center">
-                                    <p><strong> Opciones de respuesta </strong>
-                                        <hr>
-                                    </p>
-                                </div>
-                                <div class="col-md-6 text-center">
-                                    <span>Cargar imagen</span>
-                                    <label class="dropimage miniprofile">
-                                        <input type="file" name="encuesta[]" required accept="image/*" alt="Imagen-encuesta">
-                                    </label>
-                                    <input type="text" name="encuesta[]" class="form-control mt-1" placeholder="Opción 1" required />
-                                </div>
-                                <div class="col-md-6 text-center">
-                                    <span>Cargar imagen</span>
-                                    <label class="dropimage miniprofile">
-                                        <input type="file" name="encuesta[]" required accept="image/*" alt="Imagen-encuesta">
-                                    </label>
-                                    <input type="text" name="encuesta[]" class="form-control mt-1" placeholder="Opción 2" required />
-                                </div>
-                                <div class="row" id="nuevasOpcionesImg"></div>
-
-                                <div class="col-md-6 mt-3" id="content_btn_img">
-                                    <button type="button" class="btn btn-primary" onclick="agregarOpcionImgs()">
-                                        <i class="bi bi-plus"></i>
-                                        Añadir opción
-                                    </button>
-                                </div>
-                            </div>
-
-
-
-                            <div id="encuesta_img" class="row mt-3">
+                            <div class="row mt-3">
                                 <div class="d-flex justify-content-between mt-3 mb-3">
                                     <div class="col-md-6">
                                         <label for="fecha_finalizacion" class="form-label">Fijar la fecha de finalización</label>
@@ -161,35 +115,6 @@
     <?php include('includes/footer.html'); ?>
     <?php include('includes/js.html'); ?>
     <script src="code_encuesta/js/encuesta.js"></script>
-    <script>
-        const filtar_tipo_encuesta = (option) => {
-            if (option == "Seleccion multiple") {
-                document.querySelector("#opciones_encuesta_general").style.display = "flex";
-                document.querySelector("#encuesta_img").style.display = "none";
-
-                document.querySelector("#nuevasOpcionesImg").innerHTML = "";
-            } else {
-                document.querySelector("#opciones_encuesta_general").style.display = "none";
-                document.querySelector("#encuesta_img").style.display = "flex";
-
-                document.querySelector("#nuevasOpciones").innerHTML = "";
-            }
-        }
-
-
-        document.addEventListener("DOMContentLoaded", function() {
-            [].forEach.call(document.querySelectorAll('.dropimage'), function(img) {
-                img.onchange = function(e) {
-                    var inputfile = this,
-                        reader = new FileReader();
-                    reader.onloadend = function() {
-                        inputfile.style['background-image'] = 'url(' + reader.result + ')';
-                    }
-                    reader.readAsDataURL(e.target.files[0]);
-                }
-            });
-        })
-    </script>
 
 </body>
 

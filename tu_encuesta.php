@@ -68,16 +68,35 @@
 
 
                         <div class="mb-5" style="width: 80%; margin:0 auto;">
-                            <div>Elige una respuesta:</div>
+                            <h4 class="text-center mb-5">Elige una respuesta:</h4>
                             <?php
-                            while ($row = mysqli_fetch_assoc($resultadoPreguntas)) { ?>
-                                <div class="form-check checkboxContainer" id="<?php echo $row['id_pregunta']; ?>" style="padding: 5px 20px;">
-                                    <label class="form-check-label" style="padding: 5px 0px;" for="<?php echo $row['id_pregunta']; ?>">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id=" <?php echo $row['id_pregunta']; ?>">
-                                        <?php echo $row['opcion_encuesta'];  ?>
-                                    </label>
-                                </div>
-                            <?php   } ?>
+                            $count = 0;
+                            while ($row = mysqli_fetch_assoc($resultadoPreguntas)) {
+                                $count++;
+                                if ($row['imagen_encuesta'] != "") {  ?>
+                                    <div class="d-flex media_object_encuesta" id="<?php echo $row['id_pregunta']; ?>">
+                                        <div class="flex-shrink-0">
+                                            <img style="max-width: 150px;border-radius: 10px;" src="fotos_encuestas/<?php echo $row['imagen_encuesta']; ?>" alt="foto-encuesta">
+                                        </div>
+                                        <div class="flex-grow-1 checkboxContainer ms-3" style="display: flex; align-items: center;">
+                                            <label class="form-check-label" style="padding: 5px 0px;" for="<?php echo $row['id_pregunta']; ?>">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id="<?php echo $row['id_pregunta']; ?>">
+                                                <span style="margin: 7px 10px;"><?php echo $row['opcion_encuesta']; ?></span>
+                                            </label>
+                                        </div>
+                                        <div class="circle">
+                                            <span class="number"><?php echo $count; ?></span>
+                                        </div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="form-check checkboxContainer" id="<?php echo $row['id_pregunta']; ?>" style="padding: 5px 20px;">
+                                        <label class="form-check-label" style="padding: 5px 0px;" for="<?php echo $row['id_pregunta']; ?>">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id="<?php echo $row['id_pregunta']; ?>">
+                                            <?php echo $row['opcion_encuesta'];  ?>
+                                        </label>
+                                    </div>
+                            <?php   }
+                            } ?>
 
                             <hr>
                             <div class="form-group btnsFlexbox">

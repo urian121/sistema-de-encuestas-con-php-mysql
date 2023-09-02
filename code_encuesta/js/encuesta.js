@@ -4,7 +4,7 @@ const agregarOpcion = () => {
 
   $("#nuevasOpciones").append(`
   <div class="col-md-12" id="opcion_${inic}">
-    <input type="text" name="encuesta[]" class="form-control" placeholder="Opción ${inic}" />
+    <input type="text" name="opciones_encuesta[]" class="form-control" placeholder="Opción ${inic}" />
     <button type="button" class="btn btn-warning mt-2 mb-2" onclick="borrarOption('${inic}');"
         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
         <i class="bi bi-trash3-fill"></i>
@@ -16,34 +16,92 @@ const agregarOpcion = () => {
 
 let inicio = 2;
 const agregarOpcionImgs = () => {
-  console.log("click");
   inicio++;
 
   $("#nuevasOpcionesImg").append(`
-    <div class="col-md-6 text-center">
-        <span>Cargar imagen</span>
-        <label class="dropimage miniprofile">
-            <input type="file" name="encuesta[]" required accept="image/*" alt="Imagen-encuesta">
-        </label>
-        <input type="text" name="encuesta[]" class="form-control mt-1" placeholder="Opción ${inicio}"  required />
-    </div>
-    <div class="col-md-6 text-center">
-        <span>Cargar imagen</span>
-        <label class="dropimage miniprofile">
-            <input type="file" name="encuesta[]" required accept="image/*" alt="Imagen-encuesta">
-        </label>
-        <input type="text" name="encuesta[]" class="form-control mt-1" placeholder="Opción ${inicio}"  required />
-    </div>
-
     <div class="col-md-6 text-center" id="opcion_${inicio}">
-    <button type="button" class="btn btn-warning mt-2 mb-2" onclick="borrarOption('${inicio}');"
+        <span>Cargar imagen</span>
+        <label class="dropimage miniprofile">
+            <input type="file" name="encuesta_file[]" required accept="image/*" alt="Imagen-encuesta">
+        </label>
+        <input type="text" name="opciones_encuesta[]" class="form-control mt-1" placeholder="Opción ${inicio}"  required />
+      <div style="float: left;">
+        <button type="button" class="btn btn-warning mt-2 mb-2" onclick="borrarOption('${inicio}');"
           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
           <i class="bi bi-trash3-fill"></i>
           Eliminar
-      </button>
+        </button>
+      </div>
     </div>
     `);
+  iniciarVistaPreviaImagenes();
 };
+
+function crear_encuesta_optiones_generales() {
+  $("#opciones_encuesta_general").append(`
+          <div class="col-md-12">
+              <label for="Opciones de respuesta">Opciones de respuesta</label>
+              <input type="text" name="opciones_encuesta[]" class="form-control" placeholder="Opción 1" required />
+          </div>
+          <div class="col-md-12 mt-3 mb-3">
+              <input type="text" name="opciones_encuesta[]" class="form-control" placeholder="Opción 2" required />
+          </div>
+          <div id="nuevasOpciones"></div>
+          <div class="col-md-6 mt-3">
+              <button type="button" class="btn btn-primary" onclick="agregarOpcion()">
+                  <i class="bi bi-plus"></i>
+                  Añadir opción
+              </button>
+          </div>
+    `);
+}
+
+function crear_encuesta_imagen() {
+  $("#encuesta_img").append(`
+         <div class="col-md-12 text-center">
+              <p><strong> Opciones de respuesta </strong>
+                  <hr>
+              </p>
+          </div>
+          <div class="col-md-6 text-center">
+              <span>Cargar imagen</span>
+              <label class="dropimage miniprofile">
+                  <input type="file" name="encuesta_file[]" required accept="image/*" alt="Imagen-encuesta">
+              </label>
+              <input type="text" name="opciones_encuesta[]" class="form-control mt-1" placeholder="Opción 1" required />
+          </div>
+          <div class="col-md-6 text-center">
+              <span>Cargar imagen</span>
+              <label class="dropimage miniprofile">
+                  <input type="file" name="encuesta_file[]" required accept="image/*" alt="Imagen-encuesta">
+              </label>
+              <input type="text" name="opciones_encuesta[]" class="form-control mt-1" placeholder="Opción 2" required />
+          </div>
+          <div class="row" id="nuevasOpcionesImg"></div>
+
+          <div class="col-md-6 mt-3" id="content_btn_img">
+              <button type="button" class="btn btn-primary" onclick="agregarOpcionImgs()">
+                  <i class="bi bi-plus"></i>
+                  Añadir opción
+              </button>
+          </div>
+    `);
+
+  iniciarVistaPreviaImagenes();
+}
+
+function iniciarVistaPreviaImagenes() {
+  [].forEach.call(document.querySelectorAll(".dropimage"), function (img) {
+    img.onchange = function (e) {
+      var inputfile = this,
+        reader = new FileReader();
+      reader.onloadend = function () {
+        inputfile.style["background-image"] = "url(" + reader.result + ")";
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    };
+  });
+}
 
 /**
  * Borrar option
@@ -52,6 +110,22 @@ const borrarOption = (opcionId) => {
   const opcion = document.querySelector(`#opcion_${opcionId}`);
   if (opcion) {
     opcion.remove();
+  }
+};
+
+const filtar_tipo_encuesta = (option) => {
+  if (option == "Seleccion multiple") {
+    document.querySelector("#opciones_encuesta_general").style.display = "flex";
+    document.querySelector("#encuesta_img").innerHTML = "";
+    crear_encuesta_optiones_generales();
+  } else {
+    crear_encuesta_imagen();
+
+    document.querySelector("#opciones_encuesta_general").innerHTML = "";
+    let nuevasOpciones = document.querySelector("#nuevasOpciones");
+    if (nuevasOpciones) {
+      nuevasOpciones.innerHTML = "";
+    }
   }
 };
 
@@ -188,6 +262,7 @@ function alertSuccess(msj) {
     }
   }, 5000);
 }
+
 /**
  *
  */
@@ -222,3 +297,24 @@ if (document.querySelector(".alert-success")) {
     document.querySelector(".alert-success").remove();
   }, 5000);
 }
+
+addEventListener("DOMContentLoaded", (event) => {
+  let elemento = document.querySelector("#opciones_encuesta_general");
+  if (elemento) {
+    elemento.innerHTML = `   
+          <div class="col-md-12">
+              <label for="Opciones de respuesta">Opciones de respuesta</label>
+              <input type="text" name="opciones_encuesta[]" class="form-control" placeholder="Opción 1" required />
+          </div>
+          <div class="col-md-12 mt-3 mb-3">
+              <input type="text" name="opciones_encuesta[]" class="form-control" placeholder="Opción 2" required />
+          </div>
+          <div id="nuevasOpciones"></div>
+          <div class="col-md-6 mt-3">
+              <button type="button" class="btn btn-primary" onclick="agregarOpcion()">
+                  <i class="bi bi-plus"></i>
+                  Añadir opción
+              </button>
+          </div>`;
+  }
+});

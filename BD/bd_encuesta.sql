@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 29-08-2023 a las 05:01:53
+-- Tiempo de generación: 02-09-2023 a las 23:16:26
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -45,24 +45,9 @@ CREATE TABLE `tbl_encuestas` (
 --
 
 INSERT INTO `tbl_encuestas` (`id`, `code_encuesta`, `titulo_encuesta`, `tipo_encuesta`, `solicitar_nombre_participante`, `permitir_comentarios`, `visibilidad_resultados`, `duplicados_de_voz`, `fecha_finalizacion`, `created_at`) VALUES
-(1, '88GwtCvH24iTW1EzmZuy', 'TE GUSTA PHP?', 'Seleccion multiple', NULL, NULL, NULL, NULL, NULL, '2023-08-28 00:40:11'),
-(2, 'MKxxQLseS0WZYRDfbsU0', 'Te guta x?', 'Seleccion multiple', NULL, NULL, NULL, NULL, NULL, '2023-08-28 00:58:18'),
-(3, 'PgnuFMSr3QwK3J0uNsEA', 'Encuesta x', 'Seleccion multiple', 0, 0, 'Siempre publico', NULL, NULL, '2023-08-29 00:28:48'),
-(4, 'xlthAY1vOpzsY0ap1mm4', 'Encuesta6', 'Seleccion multiple', 1, 1, 'Siempre publico', NULL, NULL, '2023-08-29 01:15:16'),
-(5, 'nYN9huZJ8gPWFrcjSps2', 'Treter', 'Seleccion multiple', 0, 1, 'Siempre publico', NULL, NULL, '2023-08-29 01:18:41'),
-(6, '2R2Z1JMReGBlZWIur5AU', 'Hola', 'Seleccion multiple', 1, 0, 'Siempre publico', 'ip', NULL, '2023-08-29 01:20:33'),
-(7, 'SdwE9jCtH0OQx8ZfcOrd', '445', 'Seleccion multiple', 1, 1, 'Público después del plazo', 'Direccion IP', NULL, '2023-08-29 01:23:02'),
-(8, 'EyMO08KHixWjECoPtvDZ', '6546', 'Seleccion multiple', 0, 1, 'Siempre publico', 'Direccion IP', NULL, '2023-08-29 01:25:46'),
-(9, 'xh9y1rAQ8j3sQUUpMeS7', '545', 'Encuesta de imagen', 1, 0, 'Siempre publico', 'Direccion IP', NULL, '2023-08-29 01:31:06'),
-(10, 'HaW3IzIxzQ8ZZHFjxA61', '545', 'Encuesta de imagen', 1, 0, 'Siempre publico', 'Direccion IP', NULL, '2023-08-29 01:33:54'),
-(11, 'kf9MvywSiC7ehJDBhqN1', '545', 'Encuesta de imagen', 1, 0, 'Siempre publico', 'Direccion IP', NULL, '2023-08-29 01:33:57'),
-(12, 'QvCYRMIrWGNkoKV3wuCW', 'Fd', 'Encuesta de imagen', 1, 0, 'Siempre publico', 'Direccion IP', NULL, '2023-08-29 01:34:29'),
-(13, '4mK7i4qNweffdH6sIvUs', 'Sasas', 'Seleccion multiple', 0, 1, 'Siempre publico', 'Direccion IP', '2023-08-28 06:40:00', '2023-08-29 01:35:57'),
-(14, 'ku5yaatzQ5Z6v2yCehkb', 'Encuestasx', 'Seleccion multiple', 0, 1, 'Siempre publico', 'Direccion IP', '2023-08-31 06:55:00', '2023-08-29 01:50:30'),
-(15, 'Pt8YTC8gu1b6jEyrDuOr', 'Rerewre', 'Seleccion multiple', 0, 0, 'Siempre publico', 'Direccion IP', '2023-08-30 06:04:00', '2023-08-29 01:59:13'),
-(16, 'L2LeHa4qpwFzFjF7Y6i5', 'Rewr', 'Seleccion multiple', 0, 0, 'Siempre publico', 'Direccion IP', '2023-08-31 07:09:00', '2023-08-29 02:06:34'),
-(17, '9TqWYMU9PciCpwvLkJWH', '5345', 'Seleccion multiple', 1, 1, 'Siempre publico', 'Direccion IP', '2023-09-01 02:16:00', '2023-08-29 02:16:40'),
-(18, 'y3DnvXqXMW6r6XtNq4vN', 'Te gusta php?', 'Seleccion multiple', 0, 0, 'Siempre publico', 'Direccion IP', '2023-08-31 06:25:00', '2023-08-29 02:22:05');
+(1, 'eddUA0gVcXICA4LzF1OI', 'Te gusta html?', 'Encuesta de imagen', 1, 1, 'Siempre publico', 'Direccion IP', '2023-09-30 20:23:00', '2023-09-02 20:23:54'),
+(2, 'hixjjmOLlAnsHQ7agNCm', 'Te gustaphp?', 'Seleccion multiple', 1, 1, 'Siempre publico', 'Direccion IP', '2023-09-16 20:29:00', '2023-09-02 20:26:11'),
+(3, 'IKGFe8rkIz8YquReAxxy', 'Te gusta Nodejs?', 'Encuesta de imagen', 1, 1, 'Siempre publico', 'Direccion IP', '2023-09-23 20:27:00', '2023-09-02 20:28:02');
 
 -- --------------------------------------------------------
 
@@ -73,51 +58,25 @@ INSERT INTO `tbl_encuestas` (`id`, `code_encuesta`, `titulo_encuesta`, `tipo_enc
 CREATE TABLE `tbl_opciones_encuesta` (
   `id_pregunta` int(11) UNSIGNED NOT NULL,
   `code_encuesta` varchar(100) DEFAULT NULL,
-  `opcion_encuesta` mediumtext DEFAULT NULL
+  `opcion_encuesta` mediumtext DEFAULT NULL,
+  `imagen_encuesta` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_opciones_encuesta`
 --
 
-INSERT INTO `tbl_opciones_encuesta` (`id_pregunta`, `code_encuesta`, `opcion_encuesta`) VALUES
-(1, '88GwtCvH24iTW1EzmZuy', 'si'),
-(2, '88GwtCvH24iTW1EzmZuy', 'no'),
-(3, '88GwtCvH24iTW1EzmZuy', 'tal vez'),
-(4, 'MKxxQLseS0WZYRDfbsU0', 'No'),
-(5, 'MKxxQLseS0WZYRDfbsU0', 'Si'),
-(6, 'PgnuFMSr3QwK3J0uNsEA', 'Si'),
-(7, 'PgnuFMSr3QwK3J0uNsEA', 'No'),
-(8, 'xlthAY1vOpzsY0ap1mm4', 'SI'),
-(9, 'xlthAY1vOpzsY0ap1mm4', 'NO'),
-(10, 'nYN9huZJ8gPWFrcjSps2', 'R'),
-(11, 'nYN9huZJ8gPWFrcjSps2', '6575'),
-(12, '2R2Z1JMReGBlZWIur5AU', 'A'),
-(13, '2R2Z1JMReGBlZWIur5AU', 'B'),
-(14, 'SdwE9jCtH0OQx8ZfcOrd', '5'),
-(15, 'SdwE9jCtH0OQx8ZfcOrd', '4'),
-(16, 'EyMO08KHixWjECoPtvDZ', '546'),
-(17, 'EyMO08KHixWjECoPtvDZ', '654'),
-(18, 'xh9y1rAQ8j3sQUUpMeS7', '45'),
-(19, 'xh9y1rAQ8j3sQUUpMeS7', '54'),
-(20, 'HaW3IzIxzQ8ZZHFjxA61', '45'),
-(21, 'HaW3IzIxzQ8ZZHFjxA61', '54'),
-(22, 'kf9MvywSiC7ehJDBhqN1', '45'),
-(23, 'kf9MvywSiC7ehJDBhqN1', '54'),
-(24, 'QvCYRMIrWGNkoKV3wuCW', 'F'),
-(25, 'QvCYRMIrWGNkoKV3wuCW', 'Fd'),
-(26, '4mK7i4qNweffdH6sIvUs', 'S'),
-(27, '4mK7i4qNweffdH6sIvUs', 'Df'),
-(28, 'ku5yaatzQ5Z6v2yCehkb', 'Si'),
-(29, 'ku5yaatzQ5Z6v2yCehkb', 'N'),
-(30, 'Pt8YTC8gu1b6jEyrDuOr', 'Rerw'),
-(31, 'Pt8YTC8gu1b6jEyrDuOr', 'E'),
-(32, 'L2LeHa4qpwFzFjF7Y6i5', 'Er'),
-(33, 'L2LeHa4qpwFzFjF7Y6i5', 'Rew'),
-(34, '9TqWYMU9PciCpwvLkJWH', '5'),
-(35, '9TqWYMU9PciCpwvLkJWH', '4'),
-(36, 'y3DnvXqXMW6r6XtNq4vN', 'Si me gusta'),
-(37, 'y3DnvXqXMW6r6XtNq4vN', 'No me gusta');
+INSERT INTO `tbl_opciones_encuesta` (`id_pregunta`, `code_encuesta`, `opcion_encuesta`, `imagen_encuesta`) VALUES
+(1, 'eddUA0gVcXICA4LzF1OI', 'Si', '64f399da3bc31.jpg'),
+(2, 'eddUA0gVcXICA4LzF1OI', 'No', '64f399da3c19d.png'),
+(3, 'eddUA0gVcXICA4LzF1OI', 'No se que es', '64f399da3c3f3.png'),
+(4, 'hixjjmOLlAnsHQ7agNCm', 'Si', NULL),
+(5, 'hixjjmOLlAnsHQ7agNCm', 'No', NULL),
+(6, 'hixjjmOLlAnsHQ7agNCm', 'Tal ez', NULL),
+(7, 'hixjjmOLlAnsHQ7agNCm', 'No lo conozco', NULL),
+(8, 'IKGFe8rkIz8YquReAxxy', 'Si', '64f39ad2ea364.png'),
+(9, 'IKGFe8rkIz8YquReAxxy', 'No', '64f39ad2ea7d8.jpg'),
+(10, 'IKGFe8rkIz8YquReAxxy', 'No lo conozco', '64f39ad2eaa69.png');
 
 -- --------------------------------------------------------
 
@@ -138,10 +97,7 @@ CREATE TABLE `tbl_respuestas_encuestas` (
 --
 
 INSERT INTO `tbl_respuestas_encuestas` (`id`, `code_encuesta`, `respuesta_encuesta`, `ip_votacion`, `created`) VALUES
-(1, '88GwtCvH24iTW1EzmZuy', 'no', '::1', '2023-08-28 00:41:52'),
-(2, 'MKxxQLseS0WZYRDfbsU0', 'Si', '::1', '2023-08-28 00:59:28'),
-(3, 'ku5yaatzQ5Z6v2yCehkb', 'N', '186.155.161.59', '2023-08-29 01:50:34'),
-(4, '9TqWYMU9PciCpwvLkJWH', '4', '186.155.161.59', '2023-08-29 02:19:58');
+(1, 'IKGFe8rkIz8YquReAxxy', 'No lo conozco', '186.155.161.59', '2023-09-02 21:14:26');
 
 --
 -- Índices para tablas volcadas
@@ -173,19 +129,19 @@ ALTER TABLE `tbl_respuestas_encuestas`
 -- AUTO_INCREMENT de la tabla `tbl_encuestas`
 --
 ALTER TABLE `tbl_encuestas`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_opciones_encuesta`
 --
 ALTER TABLE `tbl_opciones_encuesta`
-  MODIFY `id_pregunta` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_pregunta` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_respuestas_encuestas`
 --
 ALTER TABLE `tbl_respuestas_encuestas`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

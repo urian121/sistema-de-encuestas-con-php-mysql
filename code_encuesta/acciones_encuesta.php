@@ -50,7 +50,8 @@
     {
         $sqlPreguntas = ("SELECT
             o.id_pregunta,
-            o.opcion_encuesta
+            o.opcion_encuesta,
+            o.imagen_encuesta
         FROM tbl_opciones_encuesta AS o
         WHERE
             o.code_encuesta ='" . $code_encuesta . "'");
