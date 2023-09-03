@@ -56,7 +56,7 @@
                 <?php } ?>
 
 
-                <div class="row justify-content-md-center mb-5">
+                <div class="row justify-content-md-center">
                     <div class="col-md-10 box_shadox">
                         <h3 class="text-center mt-3 mb-5">
                             <strong>
@@ -70,20 +70,24 @@
                         <div class="mb-5" style="width: 80%; margin:0 auto;">
                             <h4 class="text-center mb-5">Elige una respuesta:</h4>
                             <?php
+                            $count = 0;
                             while ($row = mysqli_fetch_assoc($resultadoPreguntas)) {
+                                $count++;
                                 if ($row['imagen_encuesta'] != "") {  ?>
                                     <div class="d-flex media_object_encuesta" id="<?php echo $row['id_pregunta']; ?>">
-                                        <div class="flex-grow-1 checkboxContainer me-3" style="display: flex; align-items: center;">
+                                        <div class="flex-shrink-0">
+                                            <img style="max-width: 150px;border-radius: 10px;" src="fotos_encuestas/<?php echo $row['imagen_encuesta']; ?>" alt="foto-encuesta">
+                                        </div>
+                                        <div class="flex-grow-1 checkboxContainer ms-3" style="display: flex; align-items: center;">
                                             <label class="form-check-label" style="padding: 5px 0px;" for="<?php echo $row['id_pregunta']; ?>">
                                                 <input class="form-check-input" type="radio" name="flexRadioDefault" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id="<?php echo $row['id_pregunta']; ?>">
                                                 <span style="margin: 7px 10px;"><?php echo $row['opcion_encuesta']; ?></span>
                                             </label>
                                         </div>
-                                        <div class="flex-shrink-0">
-                                            <img style="max-width: 150px;border-radius: 10px;" src="fotos_encuestas/<?php echo $row['imagen_encuesta']; ?>" alt="foto-encuesta">
+                                        <div class="circle">
+                                            <span class="number"><?php echo $count; ?></span>
                                         </div>
                                     </div>
-
                                 <?php } else { ?>
                                     <div class="form-check checkboxContainer" id="<?php echo $row['id_pregunta']; ?>" style="padding: 5px 20px;">
                                         <label class="form-check-label" style="padding: 5px 0px;" for="<?php echo $row['id_pregunta']; ?>">
@@ -91,8 +95,23 @@
                                             <?php echo $row['opcion_encuesta'];  ?>
                                         </label>
                                     </div>
-                            <?php   }
-                            } ?>
+                                <?php   }
+                            }
+
+                            if ($resultadoDetalleEncuesta['solicitar_nombre_participante'] == "1" || $resultadoDetalleEncuesta['permitir_comentarios'] == "1") { ?>
+                                <div class="col-md-12 mb-4">
+                                    <label for="nombre_votante">Nombre (requerido)</label>
+                                    <input type="text" name="nombre_votante" id="nombre_votante" class="form-control" placeholder="Introduzca su nombre" required />
+                                </div>
+                            <?php }
+
+
+                            if ($resultadoDetalleEncuesta['permitir_comentarios'] == "1") { ?>
+                                <div class="col-md-12">
+                                    <label for="comentario_encuesta">Escribe tu comentario aqui</label>
+                                    <textarea class="form-control" name="comentario_encuesta" id="comentario_encuesta" rows="3"></textarea>
+                                </div>
+                            <?php } ?>
 
                             <hr>
                             <div class="form-group btnsFlexbox">
@@ -112,39 +131,6 @@
                             </div>
 
                         </div>
-                    </div>
-                </div>
-
-                <!--comentarios--->
-                <div class="row justify-content-md-center mt-5">
-                    <div class="col-md-10 box_shadox">
-                        <h3 class="text-center mt-3 mb-5">
-                            <i class="bi bi-chat-left-dots"></i>
-                            <strong>
-                                Comentarios
-                            </strong>
-                            <hr>
-                        </h3>
-                        <form action="code_encuesta/procesar_encuesta.php" method="POST" autocomplete="off">
-                            <div class="mb-5" style="width: 80%; margin:0 auto;">
-                                <div class="col-md-12 mb-4">
-                                    <label for="nombre_votante">Nombre (requerido)</label>
-                                    <input type="text" name="nombre_votante" id="nombre_votante" class="form-control" placeholder="Introduzca su nombre" required />
-                                </div>
-
-                                <div class="col-md-12">
-                                    <label for="comentario_encuesta">Escribe tu comentario aqui</label>
-                                    <textarea class="form-control" name="comentario_encuesta" id="comentario_encuesta" rows="3"></textarea>
-                                </div>
-
-                                <div class="form-group btnsFlexbox">
-                                    <button class="btn btn-primary mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>', '<?php echo $resultadoDetalleEncuesta['permitir_comentarios']; ?>')">
-                                        Añadir un comentario
-                                        <i class="bi bi-arrow-right-circle"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
