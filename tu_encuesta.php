@@ -95,12 +95,27 @@
                                             <?php echo $row['opcion_encuesta'];  ?>
                                         </label>
                                     </div>
-                            <?php   }
-                            } ?>
+                                <?php   }
+                            }
+
+                            if ($resultadoDetalleEncuesta['solicitar_nombre_participante'] == "1" || $resultadoDetalleEncuesta['permitir_comentarios'] == "1") { ?>
+                                <div class="col-md-12 mb-4">
+                                    <label for="nombre_votante">Nombre (requerido)</label>
+                                    <input type="text" name="nombre_votante" id="nombre_votante" class="form-control" placeholder="Introduzca su nombre" required />
+                                </div>
+                            <?php }
+
+
+                            if ($resultadoDetalleEncuesta['permitir_comentarios'] == "1") { ?>
+                                <div class="col-md-12">
+                                    <label for="comentario_encuesta">Escribe tu comentario aqui</label>
+                                    <textarea class="form-control" name="comentario_encuesta" id="comentario_encuesta" rows="3"></textarea>
+                                </div>
+                            <?php } ?>
 
                             <hr>
                             <div class="form-group btnsFlexbox">
-                                <button class="btn btn-primary mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>')">
+                                <button class="btn btn-primary mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>', '<?php echo $resultadoDetalleEncuesta['permitir_comentarios']; ?>')">
                                     Votar
                                     <i class="bi bi-arrow-right-circle"></i>
                                 </button>

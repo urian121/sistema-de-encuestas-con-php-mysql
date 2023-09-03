@@ -180,12 +180,36 @@ function copiarTexto() {
 /**
  * Procesar la votacion
  */
-function procesarVotacion(buttonElement, code_encuesta) {
-  var opciones = document.querySelectorAll('input[type="radio"]:checked');
+function procesarVotacion(
+  buttonElement,
+  code_encuesta,
+  solicitar_nombre_participante,
+  permitir_comentarios
+) {
+  let opciones = document.querySelectorAll('input[type="radio"]:checked');
   if (opciones.length === 0) {
     alertDanger("Debe seleccionar una opción antes de votar");
     return;
   }
+
+  console.log(solicitar_nombre_participante, permitir_comentarios);
+
+  let votante = "";
+  let comentario = "";
+  if (solicitar_nombre_participante == "1" || permitir_comentarios == "1") {
+    votante = document.querySelector("#nombre_votante").value;
+    if (votante == "") {
+      alertDanger("Debe escribir su nombre");
+      return;
+    }
+
+    if (permitir_comentarios == "1") {
+      comentario = document.querySelector("#comentario_encuesta").value;
+    }
+  }
+
+  console.log(votante);
+  console.log(comentario);
 
   buttonElement.innerHTML =
     "Enviando encuesta... <i class='bi bi-arrow-right-circle'></i>";
@@ -195,7 +219,7 @@ function procesarVotacion(buttonElement, code_encuesta) {
   var opcion = opcionSeleccionada.getAttribute("data-opcion");
 
   let ruta = "code_encuesta/acciones_encuesta.php";
-  let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}`;
+  let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}&nombre_votante=${votante}&comentario_encuesta=${comentario}`;
   axios
     .post(ruta, dataString)
     .then((response) => {

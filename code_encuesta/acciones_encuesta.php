@@ -12,6 +12,9 @@
         $sqlEncuesta = "SELECT
                     e.code_encuesta,
                     e.titulo_encuesta,
+                    e.permitir_comentarios,
+                    e.solicitar_nombre_participante,
+                    e.permitir_comentarios,
                     e.created_at,
                     e.fecha_finalizacion
                 FROM tbl_encuestas AS e
@@ -74,14 +77,20 @@
         $code_encuesta = isset($_POST['code_encuesta']) ? $_POST['code_encuesta'] : $_GET['code_encuesta'];
         if (!verificar_votacion_ip($con, $ip, $code_encuesta)) {
             $respuesta_encuesta = isset($_POST['respuesta_encuesta']) ? $_POST['respuesta_encuesta'] : $_GET['respuesta_encuesta'];
+            $nombre_votante = $_POST['nombre_votante'];
+            $comentario_encuesta = $_POST['comentario_encuesta'];
             $SqlInsert = ("INSERT INTO tbl_respuestas_encuestas(
                 code_encuesta,
                 respuesta_encuesta,
+                nombre_votante,
+                comentario_encuesta,
                 ip_votacion
                 )
             VALUES(
                 '" . $code_encuesta . "',
                 '" . $respuesta_encuesta . "',
+                '" . $nombre_votante . "',
+                '" . $comentario_encuesta . "',
                 '" . $ip . "'
                 )");
             $resulInsert = mysqli_query($con, $SqlInsert);
