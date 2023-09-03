@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-09-2023 a las 03:20:44
+-- Tiempo de generación: 03-09-2023 a las 16:56:28
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,6 +20,39 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bd_encuesta`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_comentarios_encuesta`
+--
+
+CREATE TABLE `tbl_comentarios_encuesta` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `code_encuesta_comentario` varchar(50) DEFAULT NULL,
+  `nombre_votante_comentario` varchar(200) DEFAULT NULL,
+  `comentario_encuesta` mediumtext DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_comentarios_encuesta`
+--
+
+INSERT INTO `tbl_comentarios_encuesta` (`id`, `code_encuesta_comentario`, `nombre_votante_comentario`, `comentario_encuesta`, `created_at`) VALUES
+(1, '79sI1BStUNzjOZQdlqo2', '7657', '6767yuytuytu', '2023-09-03 14:04:32'),
+(2, '79sI1BStUNzjOZQdlqo2', 'Uriany Viera', 'Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías o de borradores de diseño para probar el diseño visual antes de insertar el texto final.', '2023-09-03 14:34:08'),
+(3, '79sI1BStUNzjOZQdlqo2', 'Oascar', 'Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías o de borradores de diseño para probar el diseño visual antes de insertar el texto final.', '2023-09-03 14:34:19'),
+(4, '79sI1BStUNzjOZQdlqo2', 'Luis Host', 'Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías o de borradores de diseño para probar el diseño visual antes de insertar el texto final.', '2023-09-03 14:34:32'),
+(5, '79sI1BStUNzjOZQdlqo2', 'Holaaa', 'ser', '2023-09-03 14:43:16'),
+(6, '79sI1BStUNzjOZQdlqo2', '8768678', 'bghfghfghgfh', '2023-09-03 14:44:32'),
+(7, '79sI1BStUNzjOZQdlqo2', '456', '456456', '2023-09-03 14:44:40'),
+(8, '79sI1BStUNzjOZQdlqo2', 'Tyrty', 'tyrty', '2023-09-03 14:45:55'),
+(9, '79sI1BStUNzjOZQdlqo2', '657657', 'ytutyu', '2023-09-03 14:46:14'),
+(10, '79sI1BStUNzjOZQdlqo2', '5464', '56456', '2023-09-03 14:47:35'),
+(11, '79sI1BStUNzjOZQdlqo2', 'Ogfdgd', 'fdgdf', '2023-09-03 14:52:22'),
+(12, '79sI1BStUNzjOZQdlqo2', 'Oscar Urriola', 'Todos estos candidatos no sirve para un coño e la madre 😱.', '2023-09-03 14:55:00'),
+(13, '79sI1BStUNzjOZQdlqo2', 'Full Stack Urian Viera', 'Soy el desarrollador de esta hermosa plataforma 😱.', '2023-09-03 14:55:43');
 
 -- --------------------------------------------------------
 
@@ -57,7 +90,12 @@ INSERT INTO `tbl_encuestas` (`id`, `code_encuesta`, `titulo_encuesta`, `tipo_enc
 (10, 'ySZAshAVbEYWo46BnncI', 'Dsd', 'Seleccion multiple', 1, 0, 'Siempre publico', 'Direccion IP', '2023-09-08 01:11:00', '2023-09-03 01:11:28'),
 (11, 'SvEA68hrTMv8FTwBRIT5', 'Rtyrty', 'Seleccion multiple', 0, 1, 'Siempre publico', 'Direccion IP', '2023-09-16 01:11:00', '2023-09-03 01:12:03'),
 (12, 't8fNUWyC4BK3MLTxS3II', '6456', 'Seleccion multiple', 0, 0, 'Siempre publico', 'Direccion IP', '2023-09-10 01:18:00', '2023-09-03 01:19:10'),
-(13, '0V7bv1Ng7HEFWhyrMmVZ', 'Trtert', 'Seleccion multiple', 0, 0, 'Siempre publico', 'Direccion IP', '2023-09-23 01:19:00', '2023-09-03 01:19:32');
+(13, '0V7bv1Ng7HEFWhyrMmVZ', 'Trtert', 'Seleccion multiple', 0, 0, 'Siempre publico', 'Direccion IP', '2023-09-23 01:19:00', '2023-09-03 01:19:32'),
+(14, 'R4astAJVCmDHudmZALTO', 'Tretret', 'Encuesta de imagen', 0, 0, 'Siempre publico', 'Direccion IP', '2023-09-24 01:22:00', '2023-09-03 01:22:43'),
+(15, '0HGTCBCYbmfMxK0Iaj5Z', 'Te gusta html?', 'Seleccion multiple', 0, 0, 'Siempre publico', 'Direccion IP', '2023-09-06 01:40:00', '2023-09-03 01:40:33'),
+(16, 'uqtyVafXvy5lNsU7zeFD', 'Te gusta Youtube?', 'Encuesta de imagen', 1, 0, 'Siempre publico', 'Direccion IP', '2023-09-04 03:44:00', '2023-09-03 01:42:53'),
+(17, 'XJCbwF5fAsfIgyZ4749o', 'T gusta nodejs?', 'Encuesta de imagen', 0, 1, 'Siempre publico', 'Direccion IP', '2023-09-30 01:51:00', '2023-09-03 01:51:19'),
+(18, '79sI1BStUNzjOZQdlqo2', 'Te gusta Youtube?', 'Encuesta de imagen', 0, 1, 'Siempre publico', 'Direccion IP', '2023-09-15 02:16:00', '2023-09-03 02:16:54');
 
 -- --------------------------------------------------------
 
@@ -109,7 +147,19 @@ INSERT INTO `tbl_opciones_encuesta` (`id_pregunta`, `code_encuesta`, `opcion_enc
 (30, 't8fNUWyC4BK3MLTxS3II', '5645', NULL),
 (31, 't8fNUWyC4BK3MLTxS3II', '546', NULL),
 (32, '0V7bv1Ng7HEFWhyrMmVZ', 'Ert', NULL),
-(33, '0V7bv1Ng7HEFWhyrMmVZ', 'Ert', NULL);
+(33, '0V7bv1Ng7HEFWhyrMmVZ', 'Ert', NULL),
+(34, 'R4astAJVCmDHudmZALTO', 'R', '64f3dfe3626a0.jpeg'),
+(35, 'R4astAJVCmDHudmZALTO', 'N', '64f3dfe362935.jpg'),
+(36, '0HGTCBCYbmfMxK0Iaj5Z', 'Si', NULL),
+(37, '0HGTCBCYbmfMxK0Iaj5Z', 'No', NULL),
+(38, '0HGTCBCYbmfMxK0Iaj5Z', 'No lo conozco', NULL),
+(39, 'uqtyVafXvy5lNsU7zeFD', 'Any', '64f3e49d7fcc2.jpg'),
+(40, 'uqtyVafXvy5lNsU7zeFD', 'Jose', '64f3e49d80427.jpeg'),
+(41, 'uqtyVafXvy5lNsU7zeFD', 'Victor', '64f3e49d809b4.jpeg'),
+(42, 'XJCbwF5fAsfIgyZ4749o', 'Si', '64f3e697182a2.jpeg'),
+(43, 'XJCbwF5fAsfIgyZ4749o', 'No', '64f3e69718567.jpeg'),
+(44, '79sI1BStUNzjOZQdlqo2', 'Evelyn Fernandez Circ 1 PRM', '64f3ec9612077.jpeg'),
+(45, '79sI1BStUNzjOZQdlqo2', 'Derik Baez Circ 1 PRM', '64f3ec961239e.jpg');
 
 -- --------------------------------------------------------
 
@@ -122,7 +172,6 @@ CREATE TABLE `tbl_respuestas_encuestas` (
   `code_encuesta` varchar(100) DEFAULT NULL,
   `respuesta_encuesta` mediumtext DEFAULT NULL,
   `nombre_votante` varchar(100) DEFAULT NULL,
-  `comentario_encuesta` mediumtext DEFAULT NULL,
   `ip_votacion` varchar(20) DEFAULT NULL,
   `created` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -131,16 +180,25 @@ CREATE TABLE `tbl_respuestas_encuestas` (
 -- Volcado de datos para la tabla `tbl_respuestas_encuestas`
 --
 
-INSERT INTO `tbl_respuestas_encuestas` (`id`, `code_encuesta`, `respuesta_encuesta`, `nombre_votante`, `comentario_encuesta`, `ip_votacion`, `created`) VALUES
-(1, '8tcR2waanJEqsuBEX50m', 'Sss', '', '', '186.155.161.59', '2023-09-03 01:05:26'),
-(2, 'YFbiMHOMPFVuD6o7sTfj', 'Andrea', '', '', '186.155.161.59', '2023-09-03 01:11:02'),
-(3, 'ySZAshAVbEYWo46BnncI', 'Dsd', 'Joseee', '', '186.155.161.59', '2023-09-03 01:11:44'),
-(4, 'SvEA68hrTMv8FTwBRIT5', 'Tyr', 'Ytrytry', '', '186.155.161.59', '2023-09-03 01:13:03'),
-(5, '0V7bv1Ng7HEFWhyrMmVZ', 'Ert', '', '', '186.155.161.59', '2023-09-03 01:19:36');
+INSERT INTO `tbl_respuestas_encuestas` (`id`, `code_encuesta`, `respuesta_encuesta`, `nombre_votante`, `ip_votacion`, `created`) VALUES
+(1, '8tcR2waanJEqsuBEX50m', 'Sss', '', '186.155.161.59', '2023-09-03 01:05:26'),
+(2, 'YFbiMHOMPFVuD6o7sTfj', 'Andrea', '', '186.155.161.59', '2023-09-03 01:11:02'),
+(3, 'ySZAshAVbEYWo46BnncI', 'Dsd', 'Joseee', '186.155.161.59', '2023-09-03 01:11:44'),
+(4, 'SvEA68hrTMv8FTwBRIT5', 'Tyr', 'Ytrytry', '186.155.161.59', '2023-09-03 01:13:03'),
+(5, '0V7bv1Ng7HEFWhyrMmVZ', 'Ert', '', '186.155.161.59', '2023-09-03 01:19:36'),
+(6, '0HGTCBCYbmfMxK0Iaj5Z', 'No', '', '186.155.161.59', '2023-09-03 01:40:46'),
+(7, 'uqtyVafXvy5lNsU7zeFD', 'Jose', 'Juan', '186.155.161.59', '2023-09-03 01:48:29'),
+(8, 'XJCbwF5fAsfIgyZ4749o', 'No', 'Host', '186.155.161.59', '2023-09-03 01:51:48');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `tbl_comentarios_encuesta`
+--
+ALTER TABLE `tbl_comentarios_encuesta`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `tbl_encuestas`
@@ -165,22 +223,28 @@ ALTER TABLE `tbl_respuestas_encuestas`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_comentarios_encuesta`
+--
+ALTER TABLE `tbl_comentarios_encuesta`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_encuestas`
 --
 ALTER TABLE `tbl_encuestas`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_opciones_encuesta`
 --
 ALTER TABLE `tbl_opciones_encuesta`
-  MODIFY `id_pregunta` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_pregunta` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_respuestas_encuestas`
 --
 ALTER TABLE `tbl_respuestas_encuestas`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

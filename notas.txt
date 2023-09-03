@@ -68,3 +68,25 @@ cokies del navegador
 
         mensajeCompleto += "\nFecha de finalización: " + fechaFinalizacionFormateada;
         document.getElementById("date_created_at").innerHTML = `La encuesta fue creada hace ${tiempoTranscurrido} y terminara ${fechaFinalizacionFormateada}`;
+
+
+
+        <div class="contenedor">
+  <p>Contenido largo...</p>
+  <p>Contenido largo...</p>
+  <p>Contenido largo...</p>
+  <!-- Agrega más contenido si es necesario para que el div se desborde -->
+</div>
+.contenedor {
+  width: 300px; /* Ancho del div contenedor */
+  height: 200px; /* Altura del div contenedor */
+  overflow-y: scroll; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
+  border: 1px solid #ccc; /* Opcional: agregar un borde al div */
+}
+
+
+/*
+#your_div {
+    height: 150px;
+    overflow: scroll;
+} */

@@ -65,6 +65,18 @@
         return $queryPreguntas;
     }
 
+    /**
+     * Obtener la lista de todos los comentarios de acuerdo a la encuesta
+     */
+    function obtenerComentarios($con, $code_encuesta)
+    {
+        $sqlComentario = ("SELECT *  FROM tbl_comentarios_encuesta WHERE code_encuesta_comentario='" . $code_encuesta . "'");
+        $queryComentarios = mysqli_query($con, $sqlComentario);
+        if (!$queryComentarios) {
+            return false;
+        }
+        return $queryComentarios;
+    }
 
     /**
      * Función para recibir el voto de la encuesta
@@ -78,19 +90,16 @@
         if (!verificar_votacion_ip($con, $ip, $code_encuesta)) {
             $respuesta_encuesta = isset($_POST['respuesta_encuesta']) ? $_POST['respuesta_encuesta'] : $_GET['respuesta_encuesta'];
             $nombre_votante = $_POST['nombre_votante'];
-            $comentario_encuesta = $_POST['comentario_encuesta'];
             $SqlInsert = ("INSERT INTO tbl_respuestas_encuestas(
                 code_encuesta,
                 respuesta_encuesta,
                 nombre_votante,
-                comentario_encuesta,
                 ip_votacion
                 )
             VALUES(
                 '" . $code_encuesta . "',
                 '" . $respuesta_encuesta . "',
                 '" . $nombre_votante . "',
-                '" . $comentario_encuesta . "',
                 '" . $ip . "'
                 )");
             $resulInsert = mysqli_query($con, $SqlInsert);

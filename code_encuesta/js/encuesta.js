@@ -183,8 +183,7 @@ function copiarTexto() {
 function procesarVotacion(
   buttonElement,
   code_encuesta,
-  solicitar_nombre_participante,
-  permitir_comentarios
+  solicitar_nombre_participante
 ) {
   let opciones = document.querySelectorAll('input[type="radio"]:checked');
   if (opciones.length === 0) {
@@ -192,24 +191,14 @@ function procesarVotacion(
     return;
   }
 
-  console.log(solicitar_nombre_participante, permitir_comentarios);
-
   let votante = "";
-  let comentario = "";
-  if (solicitar_nombre_participante == "1" || permitir_comentarios == "1") {
+  if (solicitar_nombre_participante == "1") {
     votante = document.querySelector("#nombre_votante").value;
     if (votante == "") {
       alertDanger("Debe escribir su nombre");
       return;
     }
-
-    if (permitir_comentarios == "1") {
-      comentario = document.querySelector("#comentario_encuesta").value;
-    }
   }
-
-  console.log(votante);
-  console.log(comentario);
 
   buttonElement.innerHTML =
     "Enviando encuesta... <i class='bi bi-arrow-right-circle'></i>";
@@ -219,7 +208,7 @@ function procesarVotacion(
   var opcion = opcionSeleccionada.getAttribute("data-opcion");
 
   let ruta = "code_encuesta/acciones_encuesta.php";
-  let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}&nombre_votante=${votante}&comentario_encuesta=${comentario}`;
+  let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}&nombre_votante=${votante}`;
   axios
     .post(ruta, dataString)
     .then((response) => {
@@ -287,6 +276,26 @@ function alertSuccess(msj) {
   }, 5000);
 }
 
+function alertSuccessComente(msj) {
+  const alertHTML = `
+        <div class="alert alert-success" role="alert">
+             <i class="bi bi-check2-circle"></i>
+            ${msj}
+        </div>
+    `;
+
+  const divContenedor = document.querySelector("#resp_comenten");
+  divContenedor.insertAdjacentHTML("afterend", alertHTML);
+
+  const mensajeAlerta = divContenedor.nextElementSibling;
+
+  setTimeout(() => {
+    if (mensajeAlerta) {
+      mensajeAlerta.remove();
+    }
+  }, 5000);
+}
+
 /**
  *
  */
@@ -342,3 +351,93 @@ addEventListener("DOMContentLoaded", (event) => {
           </div>`;
   }
 });
+
+/**
+ * Recibir formulario de comentarios
+ */
+const formulario = document.getElementById("form_comentario");
+if (formulario) {
+  formulario.addEventListener("submit", function (event) {
+    event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+
+    const code_encuesta_comentario = document.querySelector(
+      "#code_encuesta_comentario"
+    ).value;
+    const nombre_votante_comentario = document.querySelector(
+      "#nombre_votante_comentario"
+    ).value;
+    const comentario_encuesta = document.querySelector(
+      "#comentario_encuesta"
+    ).value;
+
+    // Verificar si alguno de los campos está vacío
+    if (
+      nombre_votante_comentario.trim() === "" ||
+      comentario_encuesta.trim() === ""
+    ) {
+      alertDanger("Por favor, complete todos los campos.");
+      return;
+    }
+
+    // Crear un objeto con los datos que deseas enviar al servidor
+    const datos = {
+      code_encuesta_comentario,
+      nombre_votante_comentario,
+      comentario_encuesta,
+    };
+
+    // Enviar los datos al servidor PHP utilizando Axios
+    axios
+      .post("code_encuesta/addComentario.php", datos, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(function (response) {
+        if (response.status === 200) {
+          // Verificar si el estado de la respuesta es 200 (éxito)
+          const data = response.data.respuesta;
+          if (data === "OK") {
+            mostrar_comentarios_creado(
+              nombre_votante_comentario,
+              comentario_encuesta
+            );
+            alertSuccessComente("Comentario registrado correctamente.");
+          } else {
+            alertDanger("Error al registrar el comentario 😭");
+            console.log("Error en el registro del comentario");
+          }
+        } else {
+          // Manejar respuestas no exitosas aquí si es necesario
+          console.log("Error en la solicitud al servidor:", response.status);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error en la solicitud:", error); // Manejar errores, si los hay.
+      });
+
+    formulario.reset();
+  });
+}
+
+function mostrar_comentarios_creado(
+  nombre_votante_comentario,
+  comentario_encuesta
+) {
+  $("#resp_comenten").append(`
+  <div class="media mb-2" style="padding: 0px 20px;">
+      <div class="media-body">
+          <h5 class="mt-0">
+              <span style="background: #ccc; padding: 12px 4px 10px 10px; border-radius: 50%;">
+                  <i class="bi bi-person" style="font-size: 30px;"></i>
+              </span>
+              <span style="padding: 0px 10px;">
+                  ${nombre_votante_comentario}
+              </span>
+          </h5>
+          <p style="padding: 0px 60px;font-size: 13px;">
+               ${comentario_encuesta}
+      </div>
+  </div>
+    `);
+}

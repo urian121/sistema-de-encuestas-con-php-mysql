@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="flex-grow-1 checkboxContainer ms-3" style="display: flex; align-items: center;">
                                             <label class="form-check-label" style="padding: 5px 0px;" for="<?php echo $row['id_pregunta']; ?>">
-                                                <input class="form-check-input" type="radio" name="flexRadioDefault" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id="<?php echo $row['id_pregunta']; ?>">
+                                                <input class="form-check-input" type="radio" name="votar" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id="<?php echo $row['id_pregunta']; ?>">
                                                 <span style="margin: 7px 10px;"><?php echo $row['opcion_encuesta']; ?></span>
                                             </label>
                                         </div>
@@ -91,7 +91,7 @@
                                 <?php } else { ?>
                                     <div class="form-check checkboxContainer" id="<?php echo $row['id_pregunta']; ?>" style="padding: 5px 20px;">
                                         <label class="form-check-label" style="padding: 5px 0px;" for="<?php echo $row['id_pregunta']; ?>">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id="<?php echo $row['id_pregunta']; ?>">
+                                            <input class="form-check-input" type="radio" name="votar" data-opcion="<?php echo $row['opcion_encuesta']; ?>" id="<?php echo $row['id_pregunta']; ?>">
                                             <?php echo $row['opcion_encuesta'];  ?>
                                         </label>
                                     </div>
