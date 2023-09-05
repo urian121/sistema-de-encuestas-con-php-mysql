@@ -58,6 +58,10 @@
                                     <label class="mt-4" for="<?php echo $row['total_respuestas']; ?>" style="display: flex; justify-content: space-between;">
                                         <span><?php echo $row['opcion_encuesta']; ?></span>
                                         <span><?php echo $porcentajeVotaron; ?>% (<?php echo $row['total_respuestas']; ?> Votos)</span>
+                                        <?php
+                                        if ($row['imagen_encuesta'] != "") { ?>
+                                            <img style="max-width: 100px;" class="rounded w-10" src="fotos_encuestas/<?php echo $row['imagen_encuesta']; ?>" alt="<?php echo $row['opcion_encuesta']; ?>">
+                                        <?php } ?>
                                     </label>
                                     <div id="progre_<?php echo $contador; ?>">
                                         <div id="progress" class="progress" style="width:100%;">

@@ -215,14 +215,15 @@ function procesarVotacion(
       resp = response.data.respuesta;
       if (resp == "ya voto") {
         alertDanger("Ya ha participado en esta encuesta");
+        limpiarVotacion(buttonElement, solicitar_nombre_participante);
         console.log("ya voto");
       } else if (resp == "ok") {
         alertSuccess("La votaci&oacute;n fue un exito");
+        limpiarVotacion(buttonElement, solicitar_nombre_participante);
         setTimeout(function () {
-          buttonElement.innerHTML =
-            "Votar <i class='bi bi-arrow-right-circle'></i>";
           $("#exampleModal").modal("show");
-        }, 1000);
+        }, 500);
+        buttonElement.innerHTML = "Votar";
       } else {
         console.log(response.data.respuesta);
       }
@@ -233,6 +234,18 @@ function procesarVotacion(
   return false;
 }
 
+function limpiarVotacion(buttonElement, solicitar_nombre_participante) {
+  if (solicitar_nombre_participante == "1") {
+    document.querySelector("#nombre_votante").value = "";
+  }
+
+  buttonElement.innerHTML = "Votar <i class='bi bi-arrow-right-circle'></i>";
+
+  let radios = document.querySelectorAll('input[type="radio"]');
+  radios.forEach((radio) => {
+    radio.checked = false;
+  });
+}
 function alertDanger(msj) {
   const alertHTML = `
         <div class="alert alert-danger" role="alert">

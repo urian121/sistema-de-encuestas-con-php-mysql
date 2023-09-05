@@ -34,11 +34,18 @@
      */
     function obtenerResultadosEncuesta($con, $code_encuesta)
     {
-        $sqlRespuestas = ("SELECT o.id_pregunta, o.opcion_encuesta, IFNULL(COUNT(r.respuesta_encuesta), 0) AS total_respuestas
-                    FROM tbl_opciones_encuesta AS o
-                    LEFT JOIN tbl_respuestas_encuestas AS r ON o.code_encuesta = r.code_encuesta AND o.opcion_encuesta = r.respuesta_encuesta
-                    WHERE o.code_encuesta ='" . $code_encuesta . "'
-                    GROUP BY o.id_pregunta, o.opcion_encuesta");
+        $sqlRespuestas = ("SELECT 
+                o.id_pregunta, 
+                o.opcion_encuesta,
+                o.imagen_encuesta, 
+            IFNULL(COUNT(r.respuesta_encuesta), 0) AS total_respuestas
+            FROM tbl_opciones_encuesta AS o
+            LEFT JOIN tbl_respuestas_encuestas AS r 
+            ON o.code_encuesta = r.code_encuesta
+            AND o.opcion_encuesta = r.respuesta_encuesta
+            WHERE o.code_encuesta ='$code_encuesta'
+            GROUP BY o.id_pregunta, o.opcion_encuesta
+            ORDER BY total_respuestas desc");
         $queryRespuesta = mysqli_query($con, $sqlRespuestas);
         if (!$queryRespuesta) {
             return false;
@@ -51,13 +58,18 @@
      */
     function obtenerPreguntas($con, $code_encuesta)
     {
-        $sqlPreguntas = ("SELECT
-            o.id_pregunta,
-            o.opcion_encuesta,
-            o.imagen_encuesta
-        FROM tbl_opciones_encuesta AS o
-        WHERE
-            o.code_encuesta ='" . $code_encuesta . "'");
+        $sqlPreguntas = ("SELECT 
+                o.id_pregunta,
+                o.opcion_encuesta,
+                o.imagen_encuesta,
+            IFNULL(COUNT(r.respuesta_encuesta), 0) AS total_respuestas
+            FROM tbl_opciones_encuesta AS o
+            LEFT JOIN tbl_respuestas_encuestas AS r 
+            ON o.code_encuesta = r.code_encuesta 
+            AND o.opcion_encuesta = r.respuesta_encuesta
+            WHERE o.code_encuesta ='$code_encuesta'
+            GROUP BY o.id_pregunta, o.opcion_encuesta
+            ORDER BY total_respuestas desc;");
         $queryPreguntas = mysqli_query($con, $sqlPreguntas);
         if (!$queryPreguntas) {
             return false;
@@ -70,7 +82,12 @@
      */
     function obtenerComentarios($con, $code_encuesta)
     {
-        $sqlComentario = ("SELECT *  FROM tbl_comentarios_encuesta WHERE code_encuesta_comentario='" . $code_encuesta . "'");
+        $sqlComentario = ("SELECT 
+            DATE_FORMAT(created_at, '%d de %b %h:%i %p') AS fecha_coment,
+                code_encuesta_comentario,
+                nombre_votante_comentario,
+                comentario_encuesta
+            FROM tbl_comentarios_encuesta WHERE code_encuesta_comentario='" . $code_encuesta . "'");
         $queryComentarios = mysqli_query($con, $sqlComentario);
         if (!$queryComentarios) {
             return false;

@@ -48,3 +48,10 @@
 .form-check-input {
   margin-top: 0px !important;
 }
+#date_coment {
+  font-size: 13px;
+  color: #b5afaf;
+  display: flex;
+  justify-content: end;
+  padding: 0px 70px;
+}

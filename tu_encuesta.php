@@ -71,8 +71,12 @@
                         <div class="mb-5 mt-3" style="width: 90%; margin:0 auto;">
                             <h4 class="text-center mb-5">Elige una respuesta:</h4>
                             <?php
+                            $contador = 0; // Inicializar el contador
                             while ($row = mysqli_fetch_assoc($resultadoPreguntas)) {
-                                if ($row['imagen_encuesta'] != "") {  ?>
+                                if ($row['imagen_encuesta'] != "") {
+                                    $porcentajeVotaron = ($row['total_respuestas'] / 100) * 100;
+                                    $contador++; // Incrementar el contador 
+                            ?>
                                     <div class="answer cursor-pointer col-12 p-0 mb-0 mb-md-3 media_object_encuesta mb-5" id="<?php echo $row['id_pregunta']; ?>">
                                         <label class="mb-0 d-flex" style="padding: 0px 0px 0px 10px;">
                                             <div class="d-flex align-items-center mr-3 mr-md-4 flex-shrink-1">
@@ -87,10 +91,8 @@
                                                 <div class="align-self-center">
                                                     <h2 class="h5 mb-1"><?php echo $row['opcion_encuesta']; ?></h2>
                                                     <p class="mb-1 small answer-subtitle">
-                                                        <!--
-                                                            <span class="number-of-votes">41 votos</span><span>, </span>
-                                                        <span class="percentage-of-votes">0%</span>
-                                                       -->
+                                                        <span class="number-of-votes"><?php echo $row['total_respuestas']; ?> votos</span><span>, </span>
+                                                        <span class="percentage-of-votes"><?php echo $porcentajeVotaron; ?>%</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -107,8 +109,16 @@
                                             <?php echo $row['opcion_encuesta'];  ?>
                                         </label>
                                     </div>
-                            <?php   }
-                            } ?>
+                                <?php   }
+                            }
+
+                            if ($resultadoDetalleEncuesta['solicitar_nombre_participante'] == "1") { ?>
+                                <!--validando si hay que mostrar el campo nombre requerido --->
+                                <div class="col-md-12 mb-4">
+                                    <label for="nombre_votante">Nombre (requerido)</label>
+                                    <input type="text" name="nombre_votante" id="nombre_votante" class="form-control" placeholder="Introduzca su nombre" required />
+                                </div>
+                            <?php } ?>
 
                             <hr>
                             <div class="form-group btnsFlexbox">
@@ -132,60 +142,65 @@
                 </div>
 
                 <!--comentarios--->
-                <div class="row justify-content-md-center mt-5">
-                    <div class="col-md-10 box_shadox">
-                        <h3 class="text-center mt-3 mb-5">
-                            <i class="bi bi-chat-left-dots"></i>
-                            <strong>
-                                Comentarios
-                            </strong>
-                            <hr>
-                        </h3>
-                        <section>
-                            <?php
-                            while ($coment = mysqli_fetch_assoc($respuestaComentarios)) { ?>
-                                <div class="media mb-2" style="padding: 0px 20px;">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">
-                                            <span style="background: #ccc; padding: 12px 4px 10px 10px; border-radius: 50%;">
-                                                <i class="bi bi-person" style="font-size: 30px;"></i>
-                                            </span>
-                                            <span style="padding: 0px 10px;">
-                                                <?php echo $coment['nombre_votante_comentario']; ?>
-                                            </span>
-                                        </h5>
-                                        <p style="padding: 0px 60px;font-size: 13px;">
-                                            <?php echo $coment['comentario_encuesta']; ?>
+                <?php
+                if ($resultadoDetalleEncuesta['permitir_comentarios'] == "1") { ?>
+                    <div class="row justify-content-md-center mt-5">
+                        <div class="col-md-10 box_shadox">
+                            <h3 class="text-center mt-3 mb-5">
+                                <i class="bi bi-chat-left-dots"></i>
+                                <strong>
+                                    Comentarios
+                                </strong>
+                                <hr>
+                            </h3>
+                            <section>
+                                <?php
+                                while ($coment = mysqli_fetch_assoc($respuestaComentarios)) { ?>
+                                    <div class="media mb-2" style="padding: 0px 20px;">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">
+                                                <span style="background: #ccc; padding: 12px 4px 10px 10px; border-radius: 50%;">
+                                                    <i class="bi bi-person" style="font-size: 30px;"></i>
+                                                </span>
+                                                <span style="padding: 0px 10px;">
+                                                    <?php echo $coment['nombre_votante_comentario']; ?>
+                                                </span>
+                                            </h5>
+                                            <p style="padding: 0px 60px;font-size: 13px;">
+                                                <?php echo $coment['comentario_encuesta']; ?>
+                                            </p>
+                                            <span id="date_coment"><?php echo $coment['fecha_coment']; ?></span>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <div id="resp_comenten"></div>
+                            </section>
+
+                            <hr class="mt-4">
+                            <form name="form_comentario" id="form_comentario" method="POST" autocomplete="off">
+                                <input type="text" name="code_encuesta_comentario" id="code_encuesta_comentario" value="<?php echo $code_encuesta; ?>" hidden>
+                                <div class="mb-5" style="width: 80%; margin:0 auto;">
+                                    <div class="col-md-12 mb-4">
+                                        <label for="nombre_votante_comentario">Nombre (requerido)</label>
+                                        <input type="text" name="nombre_votante_comentario" id="nombre_votante_comentario" class="form-control" placeholder="Introduzca su nombre" required />
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="comentario_encuesta">Escribe tu comentario aqui</label>
+                                        <textarea class="form-control" name="comentario_encuesta" id="comentario_encuesta" rows="3" required></textarea>
+                                    </div>
+
+                                    <div class="form-group btnsFlexbox">
+                                        <button type="submit" class="btn btn-primary mt-4">
+                                            Añadir un comentario
+                                            <i class="bi bi-arrow-right-circle"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            <?php } ?>
-                            <div id="resp_comenten"></div>
-                        </section>
-
-                        <hr class="mt-4">
-                        <form name="form_comentario" id="form_comentario" method="POST" autocomplete="off">
-                            <input type="text" name="code_encuesta_comentario" id="code_encuesta_comentario" value="<?php echo $code_encuesta; ?>" hidden>
-                            <div class="mb-5" style="width: 80%; margin:0 auto;">
-                                <div class="col-md-12 mb-4">
-                                    <label for="nombre_votante_comentario">Nombre (requerido)</label>
-                                    <input type="text" name="nombre_votante_comentario" id="nombre_votante_comentario" class="form-control" placeholder="Introduzca su nombre" required />
-                                </div>
-
-                                <div class="col-md-12">
-                                    <label for="comentario_encuesta">Escribe tu comentario aqui</label>
-                                    <textarea class="form-control" name="comentario_encuesta" id="comentario_encuesta" rows="3" required></textarea>
-                                </div>
-
-                                <div class="form-group btnsFlexbox">
-                                    <button type="submit" class="btn btn-primary mt-4">
-                                        Añadir un comentario
-                                        <i class="bi bi-arrow-right-circle"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                <?php } ?>
             </div>
         </section>
     </main>
@@ -248,6 +263,10 @@
         mensajeRestante += `${minutosRestantes} minutos, ${segundosRestantes} segundos.`;
 
         document.getElementById("date_created_at").innerHTML = mensajeTranscurrido + "<br>" + mensajeRestante;
+
+        /**
+         * fecha de comentarios
+         */
     </script>
 
 </body>
