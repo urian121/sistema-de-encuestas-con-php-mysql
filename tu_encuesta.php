@@ -231,6 +231,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="code_encuesta/js/encuesta.js"></script>
     <script src="code_encuesta/js/scripts.js"></script>
+    <script src="code_encuesta/js/process_encuesta.js"></script>
     <script>
         // Ejemplo de fecha obtenida desde tu formulario (debes ajustar esto según tu caso)
         var fechaCreacionString = "<?php echo $resultadoDetalleEncuesta['created_at']; ?>";

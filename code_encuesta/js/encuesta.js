@@ -177,97 +177,6 @@ function copiarTexto() {
     });
 }
 
-/**
- * Procesar la votacion
- */
-function procesarVotacion(
-  buttonElement,
-  code_encuesta,
-  solicitar_nombre_participante
-) {
-  /**
-   * Verificar cookies
-   */
-  verificarCookieHaVotado();
-
-  checkProxy();
-
-  /**
-   * Vericar por User Agents
-   */
-  var userAgent = navigator.userAgent.toLowerCase();
-
-  if (userAgent.indexOf("firefox") !== -1) {
-    console.log("Estás usando Firefox");
-  } else if (userAgent.indexOf("chrome") !== -1) {
-    console.log("Estás usando Chrome");
-  } else if (userAgent.indexOf("safari") !== -1) {
-    console.log("Estás usando Safari");
-  } else {
-    console.log("Navegador desconocido o no compatible");
-  }
-
-  let opciones = document.querySelectorAll('input[type="radio"]:checked');
-  if (opciones.length === 0) {
-    alertDanger("Debe seleccionar una opción antes de votar");
-    return;
-  }
-
-  let votante = "";
-  if (solicitar_nombre_participante == "1") {
-    votante = document.querySelector("#nombre_votante").value;
-    if (votante == "") {
-      alertDanger("Debe escribir su nombre");
-      return;
-    }
-  }
-
-  buttonElement.innerHTML =
-    "Enviando encuesta... <i class='bi bi-arrow-right-circle'></i>";
-
-  var opcionSeleccionada = opciones[0];
-  //  var preguntaId = opcionSeleccionada.getAttribute("id");
-  var opcion = opcionSeleccionada.getAttribute("data-opcion");
-
-  let ruta = "code_encuesta/acciones_encuesta.php";
-  let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}&nombre_votante=${votante}`;
-  axios
-    .post(ruta, dataString)
-    .then((response) => {
-      resp = response.data.respuesta;
-      if (resp == "ya voto") {
-        alertDanger("Ya ha participado en esta encuesta");
-        limpiarVotacion(buttonElement, solicitar_nombre_participante);
-        console.log("ya voto");
-      } else if (resp == "ok") {
-        alertSuccess("La votaci&oacute;n fue un exito");
-        limpiarVotacion(buttonElement, solicitar_nombre_participante);
-        setTimeout(function () {
-          $("#exampleModal").modal("show");
-        }, 500);
-        buttonElement.innerHTML = "Votar";
-        crearCookieHaVotado(2);
-        // crearCookieHaVotado(1440); //1 dia en minutos 1440
-      } else {
-        console.log(response.data.respuesta);
-      }
-    })
-    .catch((error) => {
-      console.error("Error al realizar la petición: ", error);
-    });
-  return false;
-}
-
-/**
- * Crear cookies
- */
-function crearCookieHaVotado(minutes) {
-  var date = new Date();
-  date.setTime(date.getTime() + minutes * 60 * 1000); // Duración en minutos
-  document.cookie =
-    "ha_votado=true; expires=" + date.toUTCString() + "; path=/";
-}
-
 /*
 function crearCookieHaVotado() {
   var date = new Date();
@@ -277,92 +186,6 @@ function crearCookieHaVotado() {
 }
 */
 
-/**
- * Verifica si existe la cookies
- */
-// Función para verificar si la cookie 'ha_votado' existe
-function verificarCookieHaVotado() {
-  return document.cookie.indexOf("ha_votado=true") !== -1;
-}
-
-/**
- * Validar votacion por VPN
- */
-async function isproxyip() {
-  if (window.location.pathname.includes("wp-cron.php")) {
-    return false;
-  }
-
-  const api_key = "eqpO5je9q97vJNMpTZAI3i9eKSBIGjSJUoo5nM7I6VLFw8qHfw";
-  const publicIp = await getPublicIPAddress(); // Obtener la dirección IP pública
-
-  if (!publicIp) {
-    console.error("No se pudo obtener la dirección IP pública.");
-    return false;
-  }
-
-  const ip = encodeURIComponent(publicIp); // Utilizar la dirección IP pública
-  const api_url = `https://api.isproxyip.com/v1/check.php?key=${api_key}&ip=${ip}`;
-
-  try {
-    const response = await fetch(api_url);
-
-    if (response.ok) {
-      const data = await response.text();
-      if (data === "Y") {
-        // IP es un proxy
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      throw new Error("Error en la solicitud a la API");
-    }
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
-
-// Uso de la función para verificar si la IP es un proxy
-async function checkProxy() {
-  const result = await isproxyip();
-  console.log(result);
-  console.log("Esta pc tiene VPN");
-}
-
-/**
- * obtener la ip del votante
- */
-async function getPublicIPAddress() {
-  try {
-    const response = await fetch("https://api64.ipify.org/?format=json");
-    if (!response.ok) {
-      throw new Error("Error al obtener la dirección IP pública");
-    }
-    const data = await response.json();
-    return data.ip;
-  } catch (error) {
-    console.error("Error:", error);
-    return null;
-  }
-}
-
-/**
- * Limpiar formulario de votacion
- */
-function limpiarVotacion(buttonElement, solicitar_nombre_participante) {
-  if (solicitar_nombre_participante == "1") {
-    document.querySelector("#nombre_votante").value = "";
-  }
-
-  buttonElement.innerHTML = "Votar <i class='bi bi-arrow-right-circle'></i>";
-
-  let radios = document.querySelectorAll('input[type="radio"]');
-  radios.forEach((radio) => {
-    radio.checked = false;
-  });
-}
 function alertDanger(msj) {
   const alertHTML = `
         <div class="alert alert-danger" role="alert">
@@ -426,9 +249,6 @@ function alertSuccessComente(msj) {
   }, 5000);
 }
 
-/**
- *
- */
 // Obtener una lista de todos los inputs en la página
 let inputs = document.querySelectorAll("input[type='text']");
 if (inputs.length > 0) {
