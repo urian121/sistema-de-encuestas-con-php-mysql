@@ -65,13 +65,42 @@
                                     <hr>
                                 </div>
 
-                                <div class="col-md-7">
+                                <div class="col-md-6">
                                     <div class="form-check form-switch">
                                         <input type="checkbox" name="solicitar_nombre_participante" id="solicitar_nombre_participante" class="form-check-input" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
-                                        <label class="form-check-label checkbox_encuesta" for="solicitar_nombre_participante" style="font-size: 14px;">Solicitar los nombres de los participantes</label>
+                                        <label class="form-check-label checkbox_encuesta" for="solicitar_nombre_participante" style="font-size: 14px;">Solicitar el nombre del participante</label>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check form-switch">
+                                        <input name="permitir_comentarios" id="permitir_comentarios" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                        <label class="form-check-label checkbox_encuesta" for="permitir_comentarios" style="font-size: 14px;">Permitir comentarios</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check form-switch">
+                                        <input name="seguridad_cookies" id="seguridad_cookies" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                        <label class="form-check-label checkbox_encuesta" for="seguridad_cookies" style="font-size: 14px;">Seguridad por Cookies</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check form-switch">
+                                        <input name="seguridad_user_agents" id="seguridad_user_agents" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                        <label class="form-check-label checkbox_encuesta" for="seguridad_user_agents" style="font-size: 14px;">Seguridad por User Agents</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check form-switch">
+                                        <input name="validar_vpn" id="validar_vpn" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                        <label class="form-check-label checkbox_encuesta" for="validar_vpn" style="font-size: 14px;">Validar por VPN</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
                                     <label for="visibilidad_resultados" class="form-label">Visibilidad de los resultados</label>
                                     <select name="visibilidad_resultados" class="form-control">
                                         <option value="Siempre publico">Siempre p&uacute;plico</option>
@@ -79,12 +108,6 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-12 mb-2">
-                                    <div class="form-check form-switch">
-                                        <input name="permitir_comentarios" id="permitir_comentarios" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
-                                        <label class="form-check-label checkbox_encuesta" for="permitir_comentarios" style="font-size: 14px;">Permitir comentarios</label>
-                                    </div>
-                                </div>
                                 <div class="col-md-6 mb-2 mt-2">
                                     <label for="duplicados_de_voz" class="form-label">Comprobación de duplicados de voz</label>
                                     <select name="duplicados_de_voz" class="form-control">

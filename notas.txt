@@ -90,3 +90,13 @@ cokies del navegador
     height: 150px;
     overflow: scroll;
 } */
+
+
+
+  // Ejemplo de uso
+  var haVotado = cookieExists("ha_votado");
+  if (haVotado) {
+    console.log("El usuario ha votado.");
+  } else {
+    console.log("El usuario no ha votado.");
+  }

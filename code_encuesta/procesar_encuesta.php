@@ -19,7 +19,11 @@ $code_encuesta = generarCodigoAleatorio();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $permitirComentarios = isset($_POST["permitir_comentarios"]) ? 1 : 0;
+    $seguridad_cookies = isset($_POST["seguridad_cookies"]) ? 1 : 0;
+    $seguridad_user_agents = isset($_POST["seguridad_user_agents"]) ? 1 : 0;
+    $validar_vpn = isset($_POST["validar_vpn"]) ? 1 : 0;
     $solicitar_nombre_participante = isset($_POST["solicitar_nombre_participante"]) ? 1 : 0;
+
     $titulo_encuesta = ucfirst($_POST['titulo_encuesta']);
     $tipo_encuesta = $_POST['tipo_encuesta'];
     $visibilidad_resultados = $_POST['visibilidad_resultados'];
@@ -36,6 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             solicitar_nombre_participante,
             visibilidad_resultados,
             duplicados_de_voz,
+            seguridad_cookies,
+            seguridad_user_agents,
+            validar_vpn,
             fecha_finalizacion
         ) VALUES (
             '$code_encuesta',
@@ -45,6 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             '$solicitar_nombre_participante',
             '$visibilidad_resultados',
             '$duplicados_de_voz',
+            '$seguridad_cookies',
+            '$seguridad_user_agents',
+            '$validar_vpn',
             '$fecha_finalizacion_formateada'
         )";
     $resulInsert = mysqli_query($con, $SqlInsert);

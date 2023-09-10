@@ -118,14 +118,30 @@
                                     <label for="nombre_votante">Nombre (requerido)</label>
                                     <input type="text" name="nombre_votante" id="nombre_votante" class="form-control" placeholder="Introduzca su nombre" required />
                                 </div>
-                            <?php } ?>
+                            <?php }
+                            //VALIDANDO COOKIES
+
+
+                            if (isset($_COOKIE['ha_votado'])) {
+                                echo ' 
+                                 <div class="alert alert-danger" role="alert">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                    <strong>Lo sentimos,</strong>
+                                    tu voto ya ha sido registrado. Gracias por participar.
+                                </div>
+                            ';
+                            }
+                            ?>
 
                             <hr>
                             <div class="form-group btnsFlexbox">
-                                <button class="btn btn-primary mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>')">
-                                    Votar
-                                    <i class="bi bi-arrow-right-circle"></i>
-                                </button>
+                                <?php
+                                if (!isset($_COOKIE['ha_votado'])) { ?>
+                                    <button class="btn btn-primary mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>')">
+                                        Votar
+                                        <i class="bi bi-arrow-right-circle"></i>
+                                    </button>
+                                <?php } ?>
                                 <a href="resultados_encuesta.php?encuesta=<?php echo $code_encuesta; ?>" class="btn btn-primary mt-4">
                                     <i class="bi bi-bar-chart-fill"></i>
                                     Resultados
