@@ -29,7 +29,7 @@
     include('code_encuesta/acciones_encuesta.php');
 
     if ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], 'tudominio.com') !== false) {
-        $URL_actual = "http://localhost/sistema-encuestas/tu_encuesta.php?encuesta=" . $code_encuesta;
+        $URL_actual = "http://localhost/encuesta/tu_encuesta.php?encuesta=" . $code_encuesta;
         // echo "El proyecto se está ejecutando en localhost.";
     } else {
         $URL_actual = "https://encuestalocal.com/tu_encuesta.php?encuesta=" . $code_encuesta;

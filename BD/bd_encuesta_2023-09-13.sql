@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.5-10.4.28-MariaDB)
 # Base de datos: bd_encuesta
-# Tiempo de Generación: 2023-09-10 03:46:08 +0000
+# Tiempo de Generación: 2023-09-14 03:56:01 +0000
 # ************************************************************
 
 
@@ -116,7 +116,15 @@ VALUES
 	(25,'NYPZ3bnTbfBLIxBJFTp8','Treter','Seleccion multiple',0,0,'Siempre publico','Direccion IP',NULL,NULL,NULL,'2023-09-13 10:10:00','2023-09-09 18:15:13'),
 	(26,'fFBgBM6AdnwHxaey09nF','Hola','Seleccion multiple',0,0,'Siempre publico','Direccion IP',0,0,1,'2023-09-15 23:08:00','2023-09-09 20:05:29'),
 	(27,'UB4C0j2ZZbjFMvPMBOJi','Te gusta html?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,0,0,'2023-09-06 10:12:00','2023-09-09 20:15:19'),
-	(28,'yMCLtymJN482rQDl3cem','Hola','Seleccion multiple',0,0,'Siempre publico','Direccion IP',0,1,0,'2023-09-28 12:10:00','2023-09-09 21:58:07');
+	(28,'yMCLtymJN482rQDl3cem','Hola','Seleccion multiple',0,0,'Siempre publico','Direccion IP',0,1,0,'2023-09-28 12:10:00','2023-09-09 21:58:07'),
+	(29,'CWMS9oZT1zAliiQGjz6Q','Tienes talento?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,0,0,'2023-09-15 19:03:00','2023-09-13 19:11:48'),
+	(30,'ADhNsVKbS8FdDFABh6d4','Te gusta la Pasta?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',0,0,1,'2023-09-14 23:50:00','2023-09-13 20:48:04'),
+	(31,'fvU04UpeJl74gAYjLyGA','Te gusta la mac?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,0,1,'2023-09-22 01:04:00','2023-09-13 21:01:01'),
+	(32,'mK2Zjpi9JP3kCChpbUod','Dasdas','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,0,1,'2023-09-16 21:10:00','2023-09-13 21:07:54'),
+	(33,'zRhDOpFDhLyqLHECAVdK','Asas','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,0,1,'2023-09-23 00:18:00','2023-09-13 21:14:38'),
+	(34,'0HzJXylTeD9wvGppLE3X','45','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,0,1,'2023-09-14 21:20:00','2023-09-13 21:18:15'),
+	(35,'gsu8mW9d8YOHcTiAjIBm','Rewrweew','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,0,1,'2023-09-14 00:37:00','2023-09-13 21:33:53'),
+	(36,'hMBXMCegTsgZwv2kJ1q2','Te gusta la manzana?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,0,1,'2023-09-22 01:57:00','2023-09-13 21:52:45');
 
 /*!40000 ALTER TABLE `tbl_encuestas` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -204,7 +212,23 @@ VALUES
 	(62,'UB4C0j2ZZbjFMvPMBOJi','Si',NULL),
 	(63,'UB4C0j2ZZbjFMvPMBOJi','No',NULL),
 	(64,'yMCLtymJN482rQDl3cem','S',NULL),
-	(65,'yMCLtymJN482rQDl3cem','N',NULL);
+	(65,'yMCLtymJN482rQDl3cem','N',NULL),
+	(66,'CWMS9oZT1zAliiQGjz6Q','Si',NULL),
+	(67,'CWMS9oZT1zAliiQGjz6Q','No',NULL),
+	(68,'ADhNsVKbS8FdDFABh6d4','Si',NULL),
+	(69,'ADhNsVKbS8FdDFABh6d4','No',NULL),
+	(70,'fvU04UpeJl74gAYjLyGA','S',NULL),
+	(71,'fvU04UpeJl74gAYjLyGA','N',NULL),
+	(72,'mK2Zjpi9JP3kCChpbUod','Dsas',NULL),
+	(73,'mK2Zjpi9JP3kCChpbUod','Asd',NULL),
+	(74,'zRhDOpFDhLyqLHECAVdK','S',NULL),
+	(75,'zRhDOpFDhLyqLHECAVdK','D',NULL),
+	(76,'0HzJXylTeD9wvGppLE3X','45',NULL),
+	(77,'0HzJXylTeD9wvGppLE3X','45',NULL),
+	(78,'gsu8mW9d8YOHcTiAjIBm','Wer',NULL),
+	(79,'gsu8mW9d8YOHcTiAjIBm','Rwer',NULL),
+	(80,'hMBXMCegTsgZwv2kJ1q2','Si',NULL),
+	(81,'hMBXMCegTsgZwv2kJ1q2','Nno',NULL);
 
 /*!40000 ALTER TABLE `tbl_opciones_encuesta` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -230,8 +254,7 @@ LOCK TABLES `tbl_respuestas_encuestas` WRITE;
 
 INSERT INTO `tbl_respuestas_encuestas` (`id`, `code_encuesta`, `respuesta_encuesta`, `nombre_votante`, `ip_votacion`, `created`)
 VALUES
-	(1,'UB4C0j2ZZbjFMvPMBOJi','No','','186.155.161.59','2023-09-09 21:57:40'),
-	(2,'yMCLtymJN482rQDl3cem','S','','186.155.161.59','2023-09-09 21:58:14');
+	(1,'hMBXMCegTsgZwv2kJ1q2','Nno','','186.155.161.59','2023-09-13 21:54:42');
 
 /*!40000 ALTER TABLE `tbl_respuestas_encuestas` ENABLE KEYS */;
 UNLOCK TABLES;

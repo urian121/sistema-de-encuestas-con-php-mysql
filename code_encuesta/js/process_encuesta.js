@@ -4,22 +4,6 @@ function procesarVotacion(
   solicitar_nombre_participante
 ) {
   let respuesta_valida = true;
-  /**
-   * Verificar cookies
-   */
-  if (!verificarCookieHaVotado()) {
-    console.log("caso 1, La cookies indica que ya voto");
-    mostrarAlerta("tu voto ya ha sido registrado. Gracias por participar");
-    respuesta_valida = false;
-  }
-
-  if (!checkProxy()) {
-    console.log("Esta pc esta usando VPN, no puede votar");
-    mostrarAlerta(
-      "No puedes participar en la votación mientras estés utilizando una VPN. Por favor, accede a la encuesta sin activar una VPN"
-    );
-    respuesta_valida = false;
-  }
 
   /**
    * Validar que haya seleccionado al menos una opcion
@@ -27,15 +11,6 @@ function procesarVotacion(
   if (!validarSeleccionRadio()) {
     console.log("caso 3, debe seleccionar una opcion");
     respuesta_valida = false;
-  }
-
-  /**
-   * Validar User Agents
-   */
-  if (!validarUserAgent()) {
-    respuesta_valida = false;
-    console.log("caso 5");
-    //https://www.youtube.com/watch?v=sFLGexOP_IU
   }
 
   let votante = "";
@@ -50,13 +25,12 @@ function procesarVotacion(
   /**
    * Procesar el formulario ya que ha pasado todas las validaciones
    */
-
   if (respuesta_valida) {
     buttonElement.innerHTML =
       "Enviando encuesta... <i class='bi bi-arrow-right-circle'></i>";
 
-    var opcionSeleccionada = opciones[0];
-    //  var preguntaId = opcionSeleccionada.getAttribute("id");
+    let valor_option = document.querySelectorAll('input[type="radio"]:checked');
+    var opcionSeleccionada = valor_option[0];
     var opcion = opcionSeleccionada.getAttribute("data-opcion");
 
     let ruta = "code_encuesta/acciones_encuesta.php";
@@ -76,8 +50,7 @@ function procesarVotacion(
             $("#exampleModal").modal("show");
           }, 500);
           buttonElement.innerHTML = "Votar";
-          crearCookieHaVotado(2);
-          // crearCookieHaVotado(1440); //1 dia en minutos 1440
+          crearCookieHaVotado();
         } else {
           console.log(response.data.respuesta);
         }
@@ -102,46 +75,174 @@ function validarSeleccionRadio() {
 }
 
 /**
- * Crear cookies
+ * obtener la ip del votante
  */
-function crearCookieHaVotado(minutes) {
-  var date = new Date();
-  date.setTime(date.getTime() + minutes * 60 * 1000); // Duración en minutos
-  document.cookie =
-    "ha_votado=true; expires=" + date.toUTCString() + "; path=/";
+async function getPublicIPAddress() {
+  try {
+    const response = await fetch("https://api64.ipify.org/?format=json");
+    if (!response.ok) {
+      throw new Error("Error al obtener la dirección IP pública");
+    }
+    const data = await response.json();
+    return data.ip;
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
 }
+
+/**
+ * Limpiar formulario de votacion
+ */
+function limpiarVotacion(buttonElement, solicitar_nombre_participante) {
+  if (solicitar_nombre_participante == "1") {
+    document.querySelector("#nombre_votante").value = "";
+  }
+
+  buttonElement.innerHTML = "Votar <i class='bi bi-arrow-right-circle'></i>";
+
+  let radios = document.querySelectorAll('input[type="radio"]');
+  radios.forEach((radio) => {
+    radio.checked = false;
+  });
+}
+
+function alertDanger_encuesta(msj) {
+  const alertHTML = `
+<div class="alert alert-danger" role="alert">
+  <i class="bi bi-exclamation-triangle"></i>
+  ${msj}
+</div>
+`;
+
+  const divContenedor = document.querySelector(".btnsFlexbox");
+  divContenedor.insertAdjacentHTML("beforebegin", alertHTML);
+
+  const mensajeAlerta = divContenedor.previousElementSibling;
+
+  setTimeout(() => {
+    if (mensajeAlerta) {
+      mensajeAlerta.remove();
+    }
+  }, 5000);
+}
+
+function alertSuccess_encuesta(msj) {
+  const alertHTML = `
+<div class="alert alert-success" role="alert">
+  <i class="bi bi-check2-circle"></i>
+  ${msj}
+</div>
+`;
+
+  const divContenedor = document.querySelector(".btnsFlexbox");
+  divContenedor.insertAdjacentHTML("beforebegin", alertHTML);
+
+  const mensajeAlerta = divContenedor.previousElementSibling;
+
+  setTimeout(() => {
+    if (mensajeAlerta) {
+      mensajeAlerta.remove();
+    }
+  }, 5000);
+}
+
+/**
+ * Alerta personalizada
+ */
+function mostrarAlerta(mensaje) {
+  // Obtiene una referencia al elemento de destino con la clase específica
+  var elementoObjetivo = document.querySelector(".btnsFlexbox");
+
+  if (elementoObjetivo) {
+    // Define el contenido HTML de la alerta con el mensaje personalizado
+    var contenidoHTML = `
+      <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle"></i>
+        <strong>Lo sentimos,</strong>
+        ${mensaje}
+      </div>
+    `;
+
+    // Inserta la alerta como el primer elemento hijo del elemento de destino
+    elementoObjetivo.insertAdjacentHTML("beforebegin", contenidoHTML);
+
+    // Programa la eliminación de la alerta después de 5 segundos
+    setTimeout(() => {
+      var miAlert = document.querySelector(".alert.alert-danger");
+      if (miAlert) {
+        miAlert.remove();
+      }
+    }, 10000);
+  }
+}
+
+/**
+ * DOMContentLoaded
+ */
+addEventListener("DOMContentLoaded", (event) => {
+  /**
+   * Validando si el usuario esta coinectado por VPN
+   */
+  main_verificarProxy();
+
+  if (verificarCookieHaVotado()) {
+    console.log("La cookie 'ha_votado' existe...");
+  } else {
+    console.log("La cookie 'ha_votado' no existe.");
+    // Puedes realizar acciones alternativas aquí, como crear la cookie
+  }
+
+  /**
+   * Validar User Agents
+   */
+  if (validarUserAgent()) {
+    console.log("caso 5");
+    //https://www.youtube.com/watch?v=sFLGexOP_IU
+  }
+});
 
 /**
  * Función para verificar si la cookie 'ha_votado' existe
  */
 function verificarCookieHaVotado() {
-  return document.cookie.indexOf("ha_votado=true") !== -1;
+  return document.cookie
+    .split("; ")
+    .some((cookie) => cookie === "ha_votado=true");
 }
 
 /**
- * Vericar por User Agents
+ * Crear cookies
  */
-function validarUserAgent() {
-  var userAgent = navigator.userAgent.toLowerCase();
-  console.log(userAgent);
-
-  // Verificar si el User-Agent contiene información específica
-  if (
-    userAgent.indexOf("firefox") !== -1 ||
-    userAgent.indexOf("chrome") !== -1 ||
-    userAgent.indexOf("safari") !== -1 ||
-    userAgent.indexOf("edge") !== -1 ||
-    userAgent.indexOf("opera") !== -1 ||
-    userAgent.indexOf("brave") !== -1
-  ) {
-    console.log("Acceso permitido");
-    return true;
-  } else {
-    console.log("Navegador desconocido o no compatible");
-    return false;
-  }
+function crearCookieHaVotado() {
+  var ahora = new Date();
+  // crearCookieHaVotado(1440); //1 dia en minutos 1440
+  ahora.setTime(ahora.getTime() + 3 * 60 * 1000); // 5 minutos en milisegundos
+  // Crea la cookie 'ha_votado' con valor 'true' y fecha de expiración
+  document.cookie =
+    "ha_votado=true; expires=" + ahora.toUTCString() + "; path=/";
+  console.log("Cookies creada");
 }
 
+// Uso de la función para verificar si la IP es un proxy
+async function checkProxy() {
+  const result = await isproxyip();
+  console.log("***", result);
+  return result; // Retorna el resultado obtenido de isproxyip()
+}
+
+async function main_verificarProxy() {
+  if (await checkProxy()) {
+    console.log("Esta PC está usando VPN, no puede votar");
+    mostrarAlerta(
+      "No puedes participar en la votación mientras estés utilizando una VPN. Por favor, accede a la encuesta sin activar una VPN."
+    );
+    document.querySelector(".btn_votar").remove();
+  } else {
+    console.log("La PC no está usando VPN, puede votar.");
+    // Continúa con el flujo normal de votación si no se detecta una VPN
+  }
+}
 /**
  * Validar votacion por VPN
  */
@@ -181,113 +282,26 @@ async function isproxyip() {
   }
 }
 
-// Uso de la función para verificar si la IP es un proxy
-async function checkProxy() {
-  const result = await isproxyip();
-  console.log(result);
-  console.log("Esta pc tiene VPN");
-}
-
 /**
- * obtener la ip del votante
+ * Vericar por User Agents
  */
-async function getPublicIPAddress() {
-  try {
-    const response = await fetch("https://api64.ipify.org/?format=json");
-    if (!response.ok) {
-      throw new Error("Error al obtener la dirección IP pública");
-    }
-    const data = await response.json();
-    return data.ip;
-  } catch (error) {
-    console.error("Error:", error);
-    return null;
+function validarUserAgent() {
+  var userAgent = navigator.userAgent.toLowerCase();
+  console.log(userAgent);
+
+  // Verificar si el User-Agent contiene información específica
+  if (
+    userAgent.indexOf("firefox") !== -1 ||
+    userAgent.indexOf("chrome") !== -1 ||
+    userAgent.indexOf("safari") !== -1 ||
+    userAgent.indexOf("edge") !== -1 ||
+    userAgent.indexOf("opera") !== -1 ||
+    userAgent.indexOf("brave") !== -1
+  ) {
+    console.log("Acceso permitido");
+    return true;
+  } else {
+    console.log("Navegador desconocido o no compatible");
+    return false;
   }
-}
-
-/**
- * Limpiar formulario de votacion
- */
-function limpiarVotacion(buttonElement, solicitar_nombre_participante) {
-  if (solicitar_nombre_participante == "1") {
-    document.querySelector("#nombre_votante").value = "";
-  }
-
-  buttonElement.innerHTML = "Votar <i class='bi bi-arrow-right-circle'></i>";
-
-  let radios = document.querySelectorAll('input[type="radio"]');
-  radios.forEach((radio) => {
-    radio.checked = false;
-  });
-}
-
-function alertDanger_encuesta(msj) {
-  const alertHTML = `
-        <div class="alert alert-danger" role="alert">
-            <i class="bi bi-exclamation-triangle"></i>
-            ${msj}
-        </div>
-    `;
-
-  const divContenedor = document.querySelector(".btnsFlexbox");
-  divContenedor.insertAdjacentHTML("beforebegin", alertHTML);
-
-  const mensajeAlerta = divContenedor.previousElementSibling;
-
-  setTimeout(() => {
-    if (mensajeAlerta) {
-      mensajeAlerta.remove();
-    }
-  }, 5000);
-}
-
-function alertSuccess_encuesta(msj) {
-  const alertHTML = `
-        <div class="alert alert-success" role="alert">
-             <i class="bi bi-check2-circle"></i>
-            ${msj}
-        </div>
-    `;
-
-  const divContenedor = document.querySelector(".btnsFlexbox");
-  divContenedor.insertAdjacentHTML("beforebegin", alertHTML);
-
-  const mensajeAlerta = divContenedor.previousElementSibling;
-
-  setTimeout(() => {
-    if (mensajeAlerta) {
-      mensajeAlerta.remove();
-    }
-  }, 5000);
-}
-
-/**
- * Alerta personalizada
- */
-/**
- * Alerta personalizada
- */
-function mostrarAlerta(mensaje) {
-  // Obtiene la referencia al elemento div con la clase 'btnsFlexbox'
-  var targetDiv = document.querySelector(".btnsFlexbox");
-
-  // Define el contenido HTML de la alerta con el mensaje personalizado
-  var contenidoHTML = `
-    <div class="alert alert-danger" role="alert">
-      <i class="bi bi-exclamation-triangle"></i>
-      <strong>Lo sentimos,</strong>
-      ${mensaje}
-    </div>
-  `;
-
-  // Establece el contenido HTML en el elemento div de destino
-  targetDiv.innerHTML = contenidoHTML;
-
-  // Programa la eliminación de la alerta después de 5 segundos
-  setTimeout(() => {
-    var miAlert = document.querySelector(".alert.alert-danger");
-    if (miAlert) {
-      miAlert.remove();
-    }
-  }, 5000);
 }

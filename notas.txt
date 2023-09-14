@@ -8,75 +8,8 @@ $totalPersonasPosibles = 100; // Total de personas posibles (hipotético)
 
 $porcentajeVotaron = ($totalPersonasVotaron / $totalPersonasPosibles) * 100;
 echo "Porcentaje de personas que votaron: " . $porcentajeVotaron . "%";
+ 
 
-cokies del navegador
-
-
-
-    la fecha de fecha_finalizacion
-    hace cuanto fue creada la encuesta 
-     desde la fecha x hasta la fecha y 
-
-     la opciond de marcar checkbos¡x del el titulo nombre de la option
-
-
-     la fecha de final obligaoria 
-
-
-
-
-
-
-
-
-     // Ejemplo de fecha obtenida desde tu formulario (debes ajustar esto según tu caso)
-        var fechaString = " <?php echo $resultadoDetalleEncuesta['created_at']; ?>";
-        var fechaFinalizacionString = " <?php echo $resultadoDetalleEncuesta['fecha_finalizacion']; ?>"; // Ejemplo de fecha de finalización
-
-        // Convertir las fechas en objetos Date
-        var fecha = new Date(fechaString);
-        var fechaFinalizacion = new Date(fechaFinalizacionString);
-
-        // Calcular la diferencia en milisegundos entre la fecha dada y el momento actual
-        var diferenciaMilisegundos = new Date() - fecha;
-
-        // Calcular los componentes de tiempo (días, horas, minutos, segundos)
-        var dias = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
-        var horas = Math.floor((diferenciaMilisegundos % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutos = Math.floor((diferenciaMilisegundos % (1000 * 60 * 60)) / (1000 * 60));
-        var segundos = Math.floor((diferenciaMilisegundos % (1000 * 60)) / 1000);
-
-        // Crear el mensaje con el tiempo transcurrido y la fecha de finalización
-        var tiempoTranscurrido = "";
-        if (dias > 0) {
-            tiempoTranscurrido += dias + " días ";
-        }
-        if (horas > 0) {
-            tiempoTranscurrido += horas + " horas ";
-        }
-        if (minutos > 0) {
-            tiempoTranscurrido += minutos + " minutos ";
-        }
-        if (segundos > 0) {
-            tiempoTranscurrido += segundos + " segundos ";
-        }
-
-        var mensajeCompleto = "Tiempo transcurrido: " + tiempoTranscurrido;
-
-        // Formatear la fecha de finalización como "DD/MM/YYYY HH:mm:ss"
-        var fechaFinalizacionFormateada = fechaFinalizacion.toLocaleDateString("es-ES") + " " + fechaFinalizacion.toLocaleTimeString("es-ES");
-
-        mensajeCompleto += "\nFecha de finalización: " + fechaFinalizacionFormateada;
-        document.getElementById("date_created_at").innerHTML = `La encuesta fue creada hace ${tiempoTranscurrido} y terminara ${fechaFinalizacionFormateada}`;
-
-
-
-        <div class="contenedor">
-  <p>Contenido largo...</p>
-  <p>Contenido largo...</p>
-  <p>Contenido largo...</p>
-  <!-- Agrega más contenido si es necesario para que el div se desborde -->
-</div>
 .contenedor {
   width: 300px; /* Ancho del div contenedor */
   height: 200px; /* Altura del div contenedor */
@@ -84,19 +17,24 @@ cokies del navegador
   border: 1px solid #ccc; /* Opcional: agregar un borde al div */
 }
 
-
-/*
 #your_div {
     height: 150px;
     overflow: scroll;
-} */
+} 
 
+if (navigator.cookieEnabled) {
+  console.log("Las cookies están habilitadas en este navegador.");
+} else {
+  console.log("Las cookies están deshabilitadas en este navegador.");
+}
 
-
-  // Ejemplo de uso
-  var haVotado = cookieExists("ha_votado");
-  if (haVotado) {
-    console.log("El usuario ha votado.");
+addEventListener("DOMContentLoaded", (event) => {
+  if (verificarCookieHaVotado()) {
+    console.log("La cookie 'ha_votado' existe...");
+    // Puedes realizar acciones relacionadas con la existencia de la cookie aquí
   } else {
-    console.log("El usuario no ha votado.");
+    console.log("La cookie 'ha_votado' no existe.");
+    // Puedes realizar acciones alternativas aquí, como crear la cookie
+    crearCookieHaVotado();
   }
+});

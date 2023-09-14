@@ -177,15 +177,6 @@ function copiarTexto() {
     });
 }
 
-/*
-function crearCookieHaVotado() {
-  var date = new Date();
-  date.setTime(date.getTime() + 1 * 24 * 60 * 60 * 1000); // Duración de un día en milisegundos
-  document.cookie =
-    "ha_votado=true; expires=" + date.toUTCString() + "; path=/";
-}
-*/
-
 function alertDanger(msj) {
   const alertHTML = `
         <div class="alert alert-danger" role="alert">

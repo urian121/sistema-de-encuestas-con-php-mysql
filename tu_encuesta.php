@@ -29,7 +29,7 @@
     include('code_encuesta/acciones_encuesta.php');
 
     if ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], 'tudominio.com') !== false) {
-        $URL_actual = "http://localhost/sistema-encuestas/tu_encuesta.php?encuesta=" . $code_encuesta;
+        $URL_actual = "http://localhost/encuesta/tu_encuesta.php?encuesta=" . $code_encuesta;
         // echo "El proyecto se está ejecutando en localhost.";
     } else {
         $URL_actual = "https://encuestalocal.com/tu_encuesta.php?encuesta=" . $code_encuesta;
@@ -120,24 +120,20 @@
                                 </div>
                             <?php }
                             //VALIDANDO COOKIES
-
-
                             if (isset($_COOKIE['ha_votado'])) {
                                 echo ' 
-                                 <div class="alert alert-danger" role="alert">
+                                <div class="alert alert-danger" role="alert">
                                     <i class="bi bi-exclamation-triangle"></i>
                                     <strong>Lo sentimos,</strong>
                                     tu voto ya ha sido registrado. Gracias por participar.
-                                </div>
-                            ';
-                            }
-                            ?>
+                                </div>';
+                            } ?>
 
                             <hr>
                             <div class="form-group btnsFlexbox">
                                 <?php
                                 if (!isset($_COOKIE['ha_votado'])) { ?>
-                                    <button class="btn btn-primary mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>')">
+                                    <button class="btn btn-primary btn_votar mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>')">
                                         Votar
                                         <i class="bi bi-arrow-right-circle"></i>
                                     </button>
