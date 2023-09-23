@@ -14,19 +14,22 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
     include('includes/header.html');
+
+
+    include('code_encuesta/acciones_encuesta.php');
+
     /**
      * Verificando si esta presente el codigo de la encuesta
      */
-    if (isset($_POST['encuesta'])) {
-        $code_encuesta = $_POST['encuesta'];
-    } elseif (isset($_GET['encuesta'])) {
+    if (isset($_GET['encuesta'])) {
         $code_encuesta = $_GET['encuesta'];
+        if (!validarEncuestaCode($con, $code_encuesta)) {
+            echo '<meta http-equiv="refresh" content="0;URL=https://encuestalocal.com/" />';
+        }
     } else {
         header("Location: index.php");
         exit;
     }
-
-    include('code_encuesta/acciones_encuesta.php');
     $URL_actual = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $resultadoDetalleEncuesta = obtenerEncuesta($con, $code_encuesta);
     $resultadoRespuestas = obtenerResultadosEncuesta($con, $code_encuesta);

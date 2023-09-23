@@ -5,6 +5,22 @@
 
 
     /**
+     * Validar si existe el codigo correcto en la url
+     */
+    function validarEncuestaCode($con, $code_encuesta)
+    {
+        $code_encuesta = mysqli_real_escape_string($con, $code_encuesta);
+        $sql = "SELECT * FROM tbl_encuestas WHERE code_encuesta = '{$code_encuesta}'";
+        $result = mysqli_query($con, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
      * Obtener encuesta por codigo encuesta
      */
     function obtenerEncuesta($con, $code_encuesta)
@@ -125,6 +141,10 @@
                 echo json_encode(array("respuesta" => "error"));
                 exit();
             } else {
+                $user_agent = $_POST['user_agents'];
+                $Sql_insert_user_agent = ("INSERT INTO tb_user_agents(code_encuesta, user_agent) VALUES('$code_encuesta', '$user_agent')");
+                $resul_insert = mysqli_query($con, $Sql_insert_user_agent);
+
                 header('Content-type: application/json; charset=utf-8');
                 echo json_encode(array("respuesta" => "ok"));
                 exit();
@@ -181,5 +201,22 @@
             return obtenerIpUsuarioServer();  // Llama a la función para el dominio objetivo
         } else {
             return obtenerIpRealAPI();  // Llama a la función para otros dominios
+        }
+    }
+
+
+    /**
+     * Obtener informacion de user Agents
+     */
+    function obtenerUserAgents($con, $code_encuesta)
+    {
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $code_encuesta = mysqli_real_escape_string($con, $code_encuesta);
+        $sql = "SELECT * FROM tb_user_agents WHERE code_encuesta ='{$code_encuesta}' AND user_agent ='{$userAgent}'";
+        $result = mysqli_query($con, $sql);
+        if ($result && mysqli_num_rows($result) > 0) {
+            return 1;
+        } else {
+            return 0;
         }
     }

@@ -34,7 +34,7 @@ function procesarVotacion(
     var opcion = opcionSeleccionada.getAttribute("data-opcion");
 
     let ruta = "code_encuesta/acciones_encuesta.php";
-    let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}&nombre_votante=${votante}`;
+    let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}&nombre_votante=${votante}&user_agents=${userAgent()}`;
     axios
       .post(ruta, dataString)
       .then((response) => {
@@ -196,10 +196,7 @@ addEventListener("DOMContentLoaded", (event) => {
   /**
    * Validar User Agents
    */
-  if (validarUserAgent()) {
-    console.log("caso 5");
-    //https://www.youtube.com/watch?v=sFLGexOP_IU
-  }
+  //verificarExistenciaUserAgent();
 });
 
 /**
@@ -237,7 +234,10 @@ async function main_verificarProxy() {
     mostrarAlerta(
       "No puedes participar en la votación mientras estés utilizando una VPN. Por favor, accede a la encuesta sin activar una VPN."
     );
-    document.querySelector(".btn_votar").remove();
+    let btn_votar = document.querySelector(".btn_votar");
+    if (btn_votar) {
+      btn_votar.remove();
+    }
   } else {
     console.log("La PC no está usando VPN, puede votar.");
     // Continúa con el flujo normal de votación si no se detecta una VPN
@@ -285,23 +285,61 @@ async function isproxyip() {
 /**
  * Vericar por User Agents
  */
-function validarUserAgent() {
-  var userAgent = navigator.userAgent.toLowerCase();
-  console.log(userAgent);
+function userAgent() {
+  return navigator.userAgent.toLowerCase();
+}
 
-  // Verificar si el User-Agent contiene información específica
-  if (
-    userAgent.indexOf("firefox") !== -1 ||
-    userAgent.indexOf("chrome") !== -1 ||
-    userAgent.indexOf("safari") !== -1 ||
-    userAgent.indexOf("edge") !== -1 ||
-    userAgent.indexOf("opera") !== -1 ||
-    userAgent.indexOf("brave") !== -1
-  ) {
-    console.log("Acceso permitido");
-    return true;
-  } else {
-    console.log("Navegador desconocido o no compatible");
-    return false;
+// Obtener el host de la URL actual
+let host = window.location.hostname;
+let apiUrl = `${host}/encuesta/code_encuesta/api_user_agents.php`;
+
+// URL de la API
+//const apiUrl = "http://localhost/encuesta/code_encuesta/api_user_agents.php";
+/*
+async function obtenerUserAgentsDeAPI() {
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data.map((item) => item.user_agent.toLowerCase());
+  } catch (error) {
+    console.error("Error al obtener la lista de User-Agents:", error);
+    throw error;
   }
 }
+*/
+
+// Función asincrónica para verificar si el User-Agent actual está en la lista
+/*
+async function verificarExistenciaUserAgent() {
+  try {
+    const listaUserAgents = await obtenerUserAgentsDeAPI();
+    const userAgentActual = navigator.userAgent.toLowerCase();
+
+    // Verificar si existe algún elemento con la clase "alert-danger"
+    const elementoExistente = document.querySelector(".alert-danger");
+    if (!elementoExistente && listaUserAgents.includes(userAgentActual)) {
+      // El elemento con la clase "alert-danger" no existe, por lo tanto, muestra el mensaje
+      let capa = document.querySelector(".btnsFlexbox");
+      capa.insertAdjacentHTML(
+        "beforebegin",
+        `
+          <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle"></i>
+            <strong>Lo sentimos,</strong>
+            tu voto ya ha sido registrado. Gracias por participar.
+          </div>
+        `
+      );
+      let btn_votar = document.querySelector(".btn_votar");
+      if (btn_votar) {
+        btn_votar.remove();
+      }
+      console.log('El User-Agent si está en la lista.");');
+    } else {
+      console.log("El User-Agent no está en la lista.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+*/

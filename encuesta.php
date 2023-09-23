@@ -81,21 +81,21 @@
 
                                 <div class="col-md-6 mb-2">
                                     <div class="form-check form-switch">
-                                        <input name="seguridad_cookies" id="seguridad_cookies" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                        <input name="seguridad_cookies" id="seguridad_cookies" checked class="form-check-input" checked type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
                                         <label class="form-check-label checkbox_encuesta" for="seguridad_cookies" style="font-size: 14px;">Seguridad por Cookies</label>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <div class="form-check form-switch">
-                                        <input name="seguridad_user_agents" id="seguridad_user_agents" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                        <input name="seguridad_user_agents" id="seguridad_user_agents" checked class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
                                         <label class="form-check-label checkbox_encuesta" for="seguridad_user_agents" style="font-size: 14px;">Seguridad por User Agents</label>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <div class="form-check form-switch">
-                                        <input name="validar_vpn" id="validar_vpn" class="form-check-input" type="checkbox" style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
+                                        <input name="validar_vpn" id="validar_vpn" class="form-check-input" type="checkbox" checked style="margin-left: -1.2em; border-radius: 10px !important;" value="1">
                                         <label class="form-check-label checkbox_encuesta" for="validar_vpn" style="font-size: 14px;">Validar por VPN</label>
                                     </div>
                                 </div>
@@ -111,11 +111,8 @@
                                 <div class="col-md-6 mb-2 mt-2">
                                     <label for="duplicados_de_voz" class="form-label">Comprobación de duplicados de voz</label>
                                     <select name="duplicados_de_voz" class="form-control">
-                                        <option value="none">Ninguno</option>
-                                        <option value="Sesion del navegador">Sesión del navegador</option>
                                         <option value="Direccion IP" selected>Dirección IP</option>
-                                        <option value="Un voto por cuenta de usuario">Un voto por cuenta de usuario</option>
-                                        <option value="Solo por invitacion">Sólo por invitación</option>
+                                        <option value="Multiples Votos">Multiples Votos</option>
                                     </select>
                                 </div>
 

@@ -11,35 +11,36 @@
 
 <body>
     <?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
     include('includes/header.html');
-    /**
-     * Verificando si esta presente el codigo de la encuesta
-     */
-    if (isset($_POST['encuesta'])) {
-        $code_encuesta = $_POST['encuesta'];
-    } elseif (isset($_GET['encuesta'])) {
-        $code_encuesta = $_GET['encuesta'];
-    } else {
-        header("Location: index.php");
-        exit;
-    }
+
     /**
      * Verificando si esta presente el codigo de la encuesta
      */
     include('code_encuesta/acciones_encuesta.php');
+    $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+    $protocol = $isSecure ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    $URL_actual = $protocol . $host . $_SERVER['REQUEST_URI'];
 
-    if ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], 'tudominio.com') !== false) {
-        $URL_actual = "http://localhost/encuesta/tu_encuesta.php?encuesta=" . $code_encuesta;
-        // echo "El proyecto se está ejecutando en localhost.";
+    /**
+     * Verificando si esta presente el codigo de la encuesta
+     */
+    if (isset($_GET['encuesta'])) {
+        $code_encuesta = $_GET['encuesta'];
+        if (!validarEncuestaCode($con, $code_encuesta)) {
+            echo '<meta http-equiv="refresh" content="0;URL=https://encuestalocal.com/" />';
+        }
     } else {
-        $URL_actual = "https://encuestalocal.com/tu_encuesta.php?encuesta=" . $code_encuesta;
-        //echo "El proyecto se está ejecutando en un dominio remoto.";
+        header("Location: index.php");
+        exit;
     }
-
 
     $resultadoDetalleEncuesta = obtenerEncuesta($con, $code_encuesta);
     $resultadoPreguntas = obtenerPreguntas($con, $code_encuesta);
     $respuestaComentarios = obtenerComentarios($con, $code_encuesta);
+    $respuestaUserAgents = obtenerUserAgents($con, $code_encuesta);
     include('modal.php');
     ?>
 
@@ -120,7 +121,7 @@
                                 </div>
                             <?php }
                             //VALIDANDO COOKIES
-                            if (isset($_COOKIE['ha_votado'])) {
+                            if (isset($_COOKIE['ha_votado']) || ($respuestaUserAgents == '1')) {
                                 echo ' 
                                 <div class="alert alert-danger" role="alert">
                                     <i class="bi bi-exclamation-triangle"></i>
@@ -132,7 +133,7 @@
                             <hr>
                             <div class="form-group btnsFlexbox">
                                 <?php
-                                if (!isset($_COOKIE['ha_votado'])) { ?>
+                                if (!isset($_COOKIE['ha_votado']) || ($respuestaUserAgents == '0')) { ?>
                                     <button class="btn btn-primary btn_votar mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>')">
                                         Votar
                                         <i class="bi bi-arrow-right-circle"></i>

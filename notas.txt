@@ -3,13 +3,6 @@ https://pollie.app/kun6m
 https://encuestalocal.com/
 
 
-$totalPersonasVotaron = 25; // Total de personas que votaron
-$totalPersonasPosibles = 100; // Total de personas posibles (hipotético)
-
-$porcentajeVotaron = ($totalPersonasVotaron / $totalPersonasPosibles) * 100;
-echo "Porcentaje de personas que votaron: " . $porcentajeVotaron . "%";
- 
-
 .contenedor {
   width: 300px; /* Ancho del div contenedor */
   height: 200px; /* Altura del div contenedor */
@@ -21,20 +14,3 @@ echo "Porcentaje de personas que votaron: " . $porcentajeVotaron . "%";
     height: 150px;
     overflow: scroll;
 } 
-
-if (navigator.cookieEnabled) {
-  console.log("Las cookies están habilitadas en este navegador.");
-} else {
-  console.log("Las cookies están deshabilitadas en este navegador.");
-}
-
-addEventListener("DOMContentLoaded", (event) => {
-  if (verificarCookieHaVotado()) {
-    console.log("La cookie 'ha_votado' existe...");
-    // Puedes realizar acciones relacionadas con la existencia de la cookie aquí
-  } else {
-    console.log("La cookie 'ha_votado' no existe.");
-    // Puedes realizar acciones alternativas aquí, como crear la cookie
-    crearCookieHaVotado();
-  }
-});
