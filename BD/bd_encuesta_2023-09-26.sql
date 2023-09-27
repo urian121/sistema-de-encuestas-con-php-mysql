@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.5-10.4.28-MariaDB)
 # Base de datos: bd_encuesta
-# Tiempo de Generación: 2023-09-23 03:40:41 +0000
+# Tiempo de Generación: 2023-09-27 02:16:35 +0000
 # ************************************************************
 
 
@@ -18,32 +18,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
-# Volcado de tabla tb_user_agents
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `tb_user_agents`;
-
-CREATE TABLE `tb_user_agents` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `code_encuesta` varchar(100) DEFAULT NULL,
-  `user_agent` mediumtext DEFAULT NULL,
-  `fecha` datetime DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-LOCK TABLES `tb_user_agents` WRITE;
-/*!40000 ALTER TABLE `tb_user_agents` DISABLE KEYS */;
-
-INSERT INTO `tb_user_agents` (`id`, `code_encuesta`, `user_agent`, `fecha`)
-VALUES
-	(1,'hnc7JEtNyExlmlxRFhnh','mozilla/5.0 (macintosh; intel mac os x 10.15; rv:109.0) gecko/20100101 firefox/117.0','2023-09-22 22:25:33'),
-	(2,'UZeV9AS71Avsrau4kuG3','mozilla/5.0 (macintosh; intel mac os x 10.15; rv:109.0) gecko/20100101 firefox/117.0','2023-09-22 22:30:41'),
-	(3,'IveY03teDuyni0oNm4mX','mozilla/5.0 (macintosh; intel mac os x 10.15; rv:109.0) gecko/20100101 firefox/117.0','2023-09-22 22:38:41');
-
-/*!40000 ALTER TABLE `tb_user_agents` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Volcado de tabla tbl_comentarios_encuesta
@@ -82,7 +56,7 @@ CREATE TABLE `tbl_encuestas` (
   `fecha_finalizacion` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 LOCK TABLES `tbl_encuestas` WRITE;
 /*!40000 ALTER TABLE `tbl_encuestas` DISABLE KEYS */;
@@ -92,7 +66,9 @@ VALUES
 	(1,'UZeV9AS71Avsrau4kuG3','Te gusta Python?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-24 10:10:00','2023-09-22 22:20:21'),
 	(2,'hnc7JEtNyExlmlxRFhnh','Rewrwe','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-28 09:09:00','2023-09-22 22:25:30'),
 	(3,'Ja30fPgQLlFIgMt72yoM','Jose','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-22 10:10:00','2023-09-22 22:36:31'),
-	(4,'IveY03teDuyni0oNm4mX','Html','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-23 10:10:00','2023-09-22 22:38:37');
+	(4,'IveY03teDuyni0oNm4mX','Html','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-23 10:10:00','2023-09-22 22:38:37'),
+	(5,'iu2eBT1lwTtFU1o1MXpA','Prueba','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-28 10:10:00','2023-09-26 19:01:04'),
+	(6,'LBgT7TDRSdLf2ZAfQAa6','Te gusta la Mac?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-28 10:10:00','2023-09-26 20:35:00');
 
 /*!40000 ALTER TABLE `tbl_encuestas` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -109,7 +85,7 @@ CREATE TABLE `tbl_opciones_encuesta` (
   `opcion_encuesta` mediumtext DEFAULT NULL,
   `imagen_encuesta` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_pregunta`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 LOCK TABLES `tbl_opciones_encuesta` WRITE;
 /*!40000 ALTER TABLE `tbl_opciones_encuesta` DISABLE KEYS */;
@@ -123,7 +99,11 @@ VALUES
 	(5,'Ja30fPgQLlFIgMt72yoM','Si',NULL),
 	(6,'Ja30fPgQLlFIgMt72yoM','No',NULL),
 	(7,'IveY03teDuyni0oNm4mX','Si',NULL),
-	(8,'IveY03teDuyni0oNm4mX','No',NULL);
+	(8,'IveY03teDuyni0oNm4mX','No',NULL),
+	(9,'iu2eBT1lwTtFU1o1MXpA','Si',NULL),
+	(10,'iu2eBT1lwTtFU1o1MXpA','No',NULL),
+	(11,'LBgT7TDRSdLf2ZAfQAa6','Si',NULL),
+	(12,'LBgT7TDRSdLf2ZAfQAa6','No',NULL);
 
 /*!40000 ALTER TABLE `tbl_opciones_encuesta` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -140,18 +120,17 @@ CREATE TABLE `tbl_respuestas_encuestas` (
   `respuesta_encuesta` mediumtext DEFAULT NULL,
   `nombre_votante` varchar(100) DEFAULT NULL,
   `ip_votacion` varchar(20) DEFAULT NULL,
+  `user_agent` mediumtext DEFAULT NULL,
   `created` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 LOCK TABLES `tbl_respuestas_encuestas` WRITE;
 /*!40000 ALTER TABLE `tbl_respuestas_encuestas` DISABLE KEYS */;
 
-INSERT INTO `tbl_respuestas_encuestas` (`id`, `code_encuesta`, `respuesta_encuesta`, `nombre_votante`, `ip_votacion`, `created`)
+INSERT INTO `tbl_respuestas_encuestas` (`id`, `code_encuesta`, `respuesta_encuesta`, `nombre_votante`, `ip_votacion`, `user_agent`, `created`)
 VALUES
-	(1,'hnc7JEtNyExlmlxRFhnh','Rwer','','186.155.161.59','2023-09-22 22:25:33'),
-	(2,'UZeV9AS71Avsrau4kuG3','No','','186.155.161.59','2023-09-22 22:30:41'),
-	(3,'IveY03teDuyni0oNm4mX','No','','186.155.161.59','2023-09-22 22:38:41');
+	(1,'LBgT7TDRSdLf2ZAfQAa6','Si','','186.155.161.59','mozilla/5.0 (macintosh; intel mac os x 10.15; rv:109.0) gecko/20100101 firefox/118.0','2023-09-26 21:16:00');
 
 /*!40000 ALTER TABLE `tbl_respuestas_encuestas` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -123,28 +123,28 @@
         if (!verificar_votacion_ip($con, $ip, $code_encuesta)) {
             $respuesta_encuesta = isset($_POST['respuesta_encuesta']) ? $_POST['respuesta_encuesta'] : $_GET['respuesta_encuesta'];
             $nombre_votante = $_POST['nombre_votante'];
+            $user_agent = $_POST['user_agents'];
             $SqlInsert = ("INSERT INTO tbl_respuestas_encuestas(
                 code_encuesta,
                 respuesta_encuesta,
                 nombre_votante,
-                ip_votacion
+                ip_votacion,
+                user_agent
                 )
             VALUES(
                 '" . $code_encuesta . "',
                 '" . $respuesta_encuesta . "',
                 '" . $nombre_votante . "',
-                '" . $ip . "'
+                '" . $ip . "',
+                '" . $user_agent . "'
                 )");
             $resulInsert = mysqli_query($con, $SqlInsert);
+            //print_r($SqlInsert);
             if (!$resulInsert) {
                 header('Content-type: application/json; charset=utf-8');
                 echo json_encode(array("respuesta" => "error"));
                 exit();
             } else {
-                $user_agent = $_POST['user_agents'];
-                $Sql_insert_user_agent = ("INSERT INTO tb_user_agents(code_encuesta, user_agent) VALUES('$code_encuesta', '$user_agent')");
-                $resul_insert = mysqli_query($con, $Sql_insert_user_agent);
-
                 header('Content-type: application/json; charset=utf-8');
                 echo json_encode(array("respuesta" => "ok"));
                 exit();
@@ -204,19 +204,40 @@
         }
     }
 
-
     /**
-     * Obtener informacion de user Agents
+     * Verificar si esta activa la encuesta por seguridad_user_agents
      */
-    function obtenerUserAgents($con, $code_encuesta)
+    function verificar_validacion_por_user_agente($con, $code_encuesta)
     {
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        $code_encuesta = mysqli_real_escape_string($con, $code_encuesta);
-        $sql = "SELECT * FROM tb_user_agents WHERE code_encuesta ='{$code_encuesta}' AND user_agent ='{$userAgent}'";
-        $result = mysqli_query($con, $sql);
-        if ($result && mysqli_num_rows($result) > 0) {
-            return 1;
+        $sqlEncuesta = "SELECT seguridad_user_agents FROM tbl_encuestas WHERE code_encuesta='$code_encuesta'";
+        $queryEncuesta = mysqli_query($con, $sqlEncuesta);
+        if (!$queryEncuesta) {
+            die("Error en la preparación de la consulta: " . mysqli_error($con));
+        }
+        $data = mysqli_fetch_assoc($queryEncuesta);
+        if ($data !== null) {
+            if ($data['seguridad_user_agents'] == 1) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return 0;
+            return false;
+        }
+    }
+    /**
+     * Validar si existe User Agents en BD
+     */
+    function verificar_user_agents($con, $code_encuesta)
+    {
+        if (verificar_validacion_por_user_agente($con, $code_encuesta)) {
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            $sql = ("SELECT user_agent FROM tbl_respuestas_encuestas WHERE user_agent = '{$userAgent}' AND code_encuesta = '{$code_encuesta}'");
+            $result = mysqli_query($con, $sql);
+            if (mysqli_num_rows($result) > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }

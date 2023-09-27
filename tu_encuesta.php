@@ -40,7 +40,7 @@
     $resultadoDetalleEncuesta = obtenerEncuesta($con, $code_encuesta);
     $resultadoPreguntas = obtenerPreguntas($con, $code_encuesta);
     $respuestaComentarios = obtenerComentarios($con, $code_encuesta);
-    $respuestaUserAgents = obtenerUserAgents($con, $code_encuesta);
+    $respuestaUserAgents = verificar_user_agents($con, $code_encuesta);
     include('modal.php');
     ?>
 
@@ -120,6 +120,8 @@
                                     <input type="text" name="nombre_votante" id="nombre_votante" class="form-control" placeholder="Introduzca su nombre" required />
                                 </div>
                             <?php }
+
+                            //print_r($respuestaUserAgents);
                             //VALIDANDO COOKIES
                             if (isset($_COOKIE['ha_votado']) || ($respuestaUserAgents == '1')) {
                                 echo ' 
@@ -133,6 +135,14 @@
                             <hr>
                             <div class="form-group btnsFlexbox">
                                 <?php
+                                /*
+                                if (!isset($_COOKIE['ha_votado'])) {
+                                    echo "La cookie 'ha_votado' no existe.";
+                                } else {
+                                    echo "La cookie 'ha_votado' existe.";
+                                }
+                                */
+
                                 if (!isset($_COOKIE['ha_votado']) || ($respuestaUserAgents == '0')) { ?>
                                     <button class="btn btn-primary btn_votar mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>')">
                                         Votar
