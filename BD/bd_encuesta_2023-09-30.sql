@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.5-10.4.28-MariaDB)
 # Base de datos: bd_encuesta
-# Tiempo de Generación: 2023-09-27 02:16:35 +0000
+# Tiempo de Generación: 2023-09-30 20:25:36 +0000
 # ************************************************************
 
 
@@ -68,7 +68,9 @@ VALUES
 	(3,'Ja30fPgQLlFIgMt72yoM','Jose','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-22 10:10:00','2023-09-22 22:36:31'),
 	(4,'IveY03teDuyni0oNm4mX','Html','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-23 10:10:00','2023-09-22 22:38:37'),
 	(5,'iu2eBT1lwTtFU1o1MXpA','Prueba','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-28 10:10:00','2023-09-26 19:01:04'),
-	(6,'LBgT7TDRSdLf2ZAfQAa6','Te gusta la Mac?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-28 10:10:00','2023-09-26 20:35:00');
+	(6,'LBgT7TDRSdLf2ZAfQAa6','Te gusta la Mac?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-28 10:10:00','2023-09-26 20:35:00'),
+	(7,'cPNj4slhGhJUYGdAYZyW','Te gusta Colombia?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-09-27 12:00:00','2023-09-26 21:18:02'),
+	(8,'wyWu0Z37XMJZfasyLcYd','Inglesh?','Seleccion multiple',0,0,'Siempre publico','Direccion IP',1,1,1,'2023-10-02 22:10:00','2023-09-30 15:24:17');
 
 /*!40000 ALTER TABLE `tbl_encuestas` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -103,7 +105,11 @@ VALUES
 	(9,'iu2eBT1lwTtFU1o1MXpA','Si',NULL),
 	(10,'iu2eBT1lwTtFU1o1MXpA','No',NULL),
 	(11,'LBgT7TDRSdLf2ZAfQAa6','Si',NULL),
-	(12,'LBgT7TDRSdLf2ZAfQAa6','No',NULL);
+	(12,'LBgT7TDRSdLf2ZAfQAa6','No',NULL),
+	(13,'cPNj4slhGhJUYGdAYZyW','Si',NULL),
+	(14,'cPNj4slhGhJUYGdAYZyW','No',NULL),
+	(15,'wyWu0Z37XMJZfasyLcYd','Si',NULL),
+	(16,'wyWu0Z37XMJZfasyLcYd','No',NULL);
 
 /*!40000 ALTER TABLE `tbl_opciones_encuesta` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -130,7 +136,9 @@ LOCK TABLES `tbl_respuestas_encuestas` WRITE;
 
 INSERT INTO `tbl_respuestas_encuestas` (`id`, `code_encuesta`, `respuesta_encuesta`, `nombre_votante`, `ip_votacion`, `user_agent`, `created`)
 VALUES
-	(1,'LBgT7TDRSdLf2ZAfQAa6','Si','','186.155.161.59','mozilla/5.0 (macintosh; intel mac os x 10.15; rv:109.0) gecko/20100101 firefox/118.0','2023-09-26 21:16:00');
+	(1,'LBgT7TDRSdLf2ZAfQAa6','Si','','186.155.161.59','mozilla/5.0 (macintosh; intel mac os x 10.15; rv:109.0) gecko/20100101 firefox/118.0','2023-09-26 21:16:00'),
+	(2,'cPNj4slhGhJUYGdAYZyW','No','','186.155.161.59','mozilla/5.0 (macintosh; intel mac os x 10.15; rv:109.0) gecko/20100101 firefox/118.0','2023-09-26 21:21:58'),
+	(3,'wyWu0Z37XMJZfasyLcYd','No','','186.29.105.238','mozilla/5.0 (macintosh; intel mac os x 10.15; rv:109.0) gecko/20100101 firefox/118.0','2023-09-30 15:24:28');
 
 /*!40000 ALTER TABLE `tbl_respuestas_encuestas` ENABLE KEYS */;
 UNLOCK TABLES;

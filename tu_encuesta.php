@@ -135,14 +135,6 @@
                             <hr>
                             <div class="form-group btnsFlexbox">
                                 <?php
-                                /*
-                                if (!isset($_COOKIE['ha_votado'])) {
-                                    echo "La cookie 'ha_votado' no existe.";
-                                } else {
-                                    echo "La cookie 'ha_votado' existe.";
-                                }
-                                */
-
                                 if (!isset($_COOKIE['ha_votado']) || ($respuestaUserAgents == '0')) { ?>
                                     <button class="btn btn-primary btn_votar mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>')">
                                         Votar
@@ -287,10 +279,6 @@
         mensajeRestante += `${minutosRestantes} minutos, ${segundosRestantes} segundos.`;
 
         document.getElementById("date_created_at").innerHTML = mensajeTranscurrido + "<br>" + mensajeRestante;
-
-        /**
-         * fecha de comentarios
-         */
     </script>
 
 </body>
