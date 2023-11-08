@@ -1,7 +1,8 @@
 function procesarVotacion(
   buttonElement,
   code_encuesta,
-  solicitar_nombre_participante
+  solicitar_nombre_participante,
+  miArrayOptiones
 ) {
   let respuesta_valida = true;
 
@@ -30,12 +31,11 @@ function procesarVotacion(
       "Enviando encuesta... <i class='bi bi-arrow-right-circle'></i>";
 
     let valor_option = document.querySelectorAll('input[type="radio"]:checked');
-    var opcionSeleccionada = valor_option[0];
-    var opcion = opcionSeleccionada.getAttribute("data-opcion");
-    let userAgente = navigator.userAgent.toLowerCase();
+    let opcionSeleccionada = valor_option[0];
+    let opcion = opcionSeleccionada.getAttribute("data-opcion");
 
     let ruta = "code_encuesta/acciones_encuesta.php";
-    let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}&nombre_votante=${votante}&user_agents=${userAgente}`;
+    let dataString = `accion=registarVotacion&code_encuesta=${code_encuesta}&respuesta_encuesta=${opcion}&nombre_votante=${votante}&miArrayOptiones=${miArrayOptiones}`;
     axios
       .post(ruta, dataString)
       .then((response) => {
@@ -99,9 +99,7 @@ function limpiarVotacion(buttonElement, solicitar_nombre_participante) {
   if (solicitar_nombre_participante == "1") {
     document.querySelector("#nombre_votante").value = "";
   }
-
-  buttonElement.innerHTML = "Votar <i class='bi bi-arrow-right-circle'></i>";
-
+  buttonElement.remove();
   let radios = document.querySelectorAll('input[type="radio"]');
   radios.forEach((radio) => {
     radio.checked = false;
@@ -187,26 +185,35 @@ addEventListener("DOMContentLoaded", (event) => {
    */
   main_verificarProxy();
 
+  /**
+   * Validar si el usuario tiene la cookies de que ya ha votados
+   */
   if (verificarCookieHaVotado()) {
     console.log("La cookie 'ha_votado' existe...");
+    alertDanger_encuesta(
+      "Lo sentimos, tu voto ya ha sido registrado. Gracias por participar."
+    );
   } else {
     console.log("La cookie 'ha_votado' no existe.");
-    // Puedes realizar acciones alternativas aquí, como crear la cookie
   }
-
-  /**
-   * Validar User Agents
-   */
-  //verificarExistenciaUserAgent();
 });
 
 /**
  * Función para verificar si la cookie 'ha_votado' existe
  */
 function verificarCookieHaVotado() {
-  return document.cookie
-    .split("; ")
-    .some((cookie) => cookie === "ha_votado=true");
+  if (
+    document.cookie.split("; ").some((cookie) => cookie === "ha_votado=true")
+  ) {
+    let btn_votar = document.querySelector(".btn_votar");
+    if (btn_votar) {
+      btn_votar.remove();
+    }
+    console.log("existe la cookies");
+    return true;
+  }
+  console.log("No existe la cookies");
+  return false;
 }
 
 /**
@@ -214,12 +221,11 @@ function verificarCookieHaVotado() {
  */
 function crearCookieHaVotado() {
   var ahora = new Date();
-  // crearCookieHaVotado(1440); //1 dia en minutos 1440
-  ahora.setTime(ahora.getTime() + 3 * 60 * 1000); // 5 minutos en milisegundos
+  ahora.setTime(ahora.getTime() + 24 * 60 * 60 * 1000); // 1 día en milisegundos
   // Crea la cookie 'ha_votado' con valor 'true' y fecha de expiración
   document.cookie =
     "ha_votado=true; expires=" + ahora.toUTCString() + "; path=/";
-  console.log("Cookies creada");
+  console.log("Cookie creada con duración de un día");
 }
 
 // Uso de la función para verificar si la IP es un proxy

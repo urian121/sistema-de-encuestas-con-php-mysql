@@ -1,5 +1,9 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <?php include('includes/head.html'); ?>
 <link rel="stylesheet" href="assets/css/my_custom.css">
 
@@ -11,8 +15,6 @@
 
 <body>
     <?php
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
     include('includes/header.html');
 
     /**
@@ -40,7 +42,7 @@
     $resultadoDetalleEncuesta = obtenerEncuesta($con, $code_encuesta);
     $resultadoPreguntas = obtenerPreguntas($con, $code_encuesta);
     $respuestaComentarios = obtenerComentarios($con, $code_encuesta);
-    $respuestaUserAgents = verificar_user_agents($con, $code_encuesta);
+    //$respuestaUserAgents = verificar_user_agents($con, $code_encuesta);
     include('modal.php');
     ?>
 
@@ -48,16 +50,7 @@
     <main id="main mt-5 mb-5">
         <section id="contact" class="contact mt-5">
             <div class="container" data-aos="fade-up">
-                <?php
-                if (isset($_GET['msj']) && $_GET['msj'] === 'success') { ?>
-                    <div class="alert alert-success" role="alert">
-                        <i class="bi bi-check2-circle"></i>
-                        <strong>Felicitaciones,</strong>
-                        tu encuesta fue creada correctamente.
-                    </div>
-                <?php } ?>
-
-
+                <div id="resp_notification"></div>
                 <div class="row justify-content-md-center mb-5">
                     <div class="col-md-10 box_shadox">
                         <h3 class="text-center mt-3 mb-5">
@@ -121,26 +114,28 @@
                                 </div>
                             <?php }
 
-                            //print_r($respuestaUserAgents);
-                            //VALIDANDO COOKIES
-                            if (isset($_COOKIE['ha_votado']) || ($respuestaUserAgents == '1')) {
-                                echo ' 
-                                <div class="alert alert-danger" role="alert">
-                                    <i class="bi bi-exclamation-triangle"></i>
-                                    <strong>Lo sentimos,</strong>
-                                    tu voto ya ha sido registrado. Gracias por participar.
-                                </div>';
-                            } ?>
+                            $miArrayOptiones = json_encode(array(
+                                $resultadoDetalleEncuesta['seguridad_cookies'],
+                                $resultadoDetalleEncuesta['seguridad_user_agents'],
+                                $resultadoDetalleEncuesta['validar_vpn']
+                            ));
+
+                            $respuestaUserAgents = verificar_user_agents($con, $code_encuesta);
+                            ?>
 
                             <hr>
                             <div class="form-group btnsFlexbox">
                                 <?php
-                                if (!isset($_COOKIE['ha_votado']) || ($respuestaUserAgents == '0')) { ?>
-                                    <button class="btn btn-primary btn_votar mt-4" onclick="procesarVotacion(this, '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>')">
+                                if ($respuestaUserAgents == 0) { ?>
+                                    <button class="btn btn-primary btn_votar mt-4" data-options="<?php echo htmlspecialchars($miArrayOptiones); ?>" onclick="procesarVotacion(this, 
+                                        '<?php echo $resultadoDetalleEncuesta['code_encuesta']; ?>', 
+                                        '<?php echo $resultadoDetalleEncuesta['solicitar_nombre_participante']; ?>',
+                                        JSON.parse(this.getAttribute('data-options')))">
                                         Votar
                                         <i class="bi bi-arrow-right-circle"></i>
                                     </button>
-                                <?php } ?>
+                                <?php
+                                } ?>
                                 <a href="resultados_encuesta.php?encuesta=<?php echo $code_encuesta; ?>" class="btn btn-primary mt-4">
                                     <i class="bi bi-bar-chart-fill"></i>
                                     Resultados

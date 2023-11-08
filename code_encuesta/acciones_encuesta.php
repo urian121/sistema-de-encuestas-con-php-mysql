@@ -31,6 +31,9 @@
                     e.permitir_comentarios,
                     e.solicitar_nombre_participante,
                     e.permitir_comentarios,
+                    e.seguridad_cookies,
+                    e.seguridad_user_agents,
+                    e.validar_vpn,
                     e.created_at,
                     e.fecha_finalizacion
                 FROM tbl_encuestas AS e
@@ -123,7 +126,9 @@
         if (!verificar_votacion_ip($con, $ip, $code_encuesta)) {
             $respuesta_encuesta = isset($_POST['respuesta_encuesta']) ? $_POST['respuesta_encuesta'] : $_GET['respuesta_encuesta'];
             $nombre_votante = $_POST['nombre_votante'];
-            $user_agent = $_POST['user_agents'];
+            $miArrayOptiones = $_POST['miArrayOptiones'];
+
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
             $SqlInsert = ("INSERT INTO tbl_respuestas_encuestas(
                 code_encuesta,
                 respuesta_encuesta,
@@ -136,10 +141,9 @@
                 '" . $respuesta_encuesta . "',
                 '" . $nombre_votante . "',
                 '" . $ip . "',
-                '" . $user_agent . "'
+                '" . $userAgent . "'
                 )");
             $resulInsert = mysqli_query($con, $SqlInsert);
-            //print_r($SqlInsert);
             if (!$resulInsert) {
                 header('Content-type: application/json; charset=utf-8');
                 echo json_encode(array("respuesta" => "error"));
@@ -209,22 +213,25 @@
      */
     function verificar_validacion_por_user_agente($con, $code_encuesta)
     {
-        $sqlEncuesta = "SELECT seguridad_user_agents FROM tbl_encuestas WHERE code_encuesta='$code_encuesta'";
+        $sqlEncuesta = "SELECT seguridad_user_agents FROM tbl_encuestas WHERE code_encuesta='$code_encuesta' LIMIT 1";
         $queryEncuesta = mysqli_query($con, $sqlEncuesta);
+
+        // Comprobar si la consulta se ejecutó con éxito
         if (!$queryEncuesta) {
-            die("Error en la preparación de la consulta: " . mysqli_error($con));
+            die("Error en la consulta: " . mysqli_error($con));
         }
-        $data = mysqli_fetch_assoc($queryEncuesta);
-        if ($data !== null) {
-            if ($data['seguridad_user_agents'] == 1) {
-                return true;
-            } else {
-                return false;
-            }
+
+        // Obtener el resultado de la consulta
+        $encuesta = mysqli_fetch_assoc($queryEncuesta);
+
+        // Comprobar si la encuesta requiere validación por User-Agent
+        if ($encuesta['seguridad_user_agents'] == 1) {
+            return true; // Requiere validación por User-Agent
         } else {
-            return false;
+            return false; // No requiere validación por User-Agent
         }
     }
+
     /**
      * Validar si existe User Agents en BD
      */
@@ -239,5 +246,7 @@
             } else {
                 return 0;
             }
+        } else {
+            return 0;
         }
     }
