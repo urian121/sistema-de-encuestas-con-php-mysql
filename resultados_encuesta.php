@@ -13,7 +13,6 @@
     <?php
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-    include('includes/header.html');
 
 
     include('code_encuesta/acciones_encuesta.php');
@@ -38,7 +37,7 @@
 
     <main id="main mt-5 mb-5">
         <section id="contact" class="contact mt-5">
-            <div class="container" data-aos="fade-up">
+            <div class="container">
                 <div class="row justify-content-md-center">
                     <div class="col-md-10 box_shadox">
                         <h3 class="text-center mt-3 mb-5">

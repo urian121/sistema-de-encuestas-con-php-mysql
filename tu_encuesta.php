@@ -15,7 +15,6 @@ error_reporting(E_ALL);
 
 <body>
     <?php
-    include('includes/header.html');
 
     /**
      * Verificando si esta presente el codigo de la encuesta
@@ -48,8 +47,8 @@ error_reporting(E_ALL);
 
 
     <main id="main mt-5 mb-5">
-        <section id="contact" class="contact mt-5">
-            <div class="container" data-aos="fade-up">
+        <section id="contact" class="contact">
+            <div class="container">
                 <div id="resp_notification"></div>
                 <div class="row justify-content-md-center mb-5">
                     <div class="col-md-10 box_shadox">
@@ -214,11 +213,6 @@ error_reporting(E_ALL);
             </div>
         </section>
     </main>
-
-
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center active">
-        <i class="bi bi-arrow-up-short"> </i>
-    </a>
 
 
     <?php include('includes/js.html'); ?>
