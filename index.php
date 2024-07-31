@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <?php include('includes/head.html'); ?>
 <link rel="stylesheet" href="assets/css/my_custom.css">
 <link rel="stylesheet" href="assets/css//picnic.min.css">

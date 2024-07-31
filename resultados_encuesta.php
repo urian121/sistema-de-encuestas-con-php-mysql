@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <?php include('includes/head.html'); ?>
 <link rel="stylesheet" href="assets/css/my_custom.css">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Llenar encuesta</title>
+    <title>Resultado de la encuesta</title>
 </head>
 
 <body>
     <?php
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-
-
     include('code_encuesta/acciones_encuesta.php');
 
     /**
@@ -52,28 +48,44 @@
                             <h5>Resultados de la votaci&oacute;n</h5>
                             <?php
                             $contador = 0; // Inicializar el contador
+                            $total_votos = 0; // Variable para almacenar el total de votos
+
+                            // Calcular el total de votos
                             while ($row = mysqli_fetch_assoc($resultadoRespuestas)) {
-                                $porcentajeVotaron = ($row['total_respuestas'] / 100) * 100;
+                                $total_votos += $row['total_respuestas'];
+                            }
+
+                            // Resetear el puntero del resultado de la consulta
+                            mysqli_data_seek($resultadoRespuestas, 0);
+
+                            // Generar las barras de progreso
+                            while ($row = mysqli_fetch_assoc($resultadoRespuestas)) {
+                                // Calcular el porcentaje basado en el total de votos
+                                $porcentajeVotaron = ($total_votos > 0) ? ($row['total_respuestas'] / $total_votos) * 100 : 0;
+                                $porcentajeVotaronRedondeado = round($porcentajeVotaron); // Redondear el porcentaje
+
                                 $contador++; // Incrementar el contador 
                             ?>
                                 <span id="<?php echo $row['id_pregunta']; ?>">
                                     <label class="mt-4" for="<?php echo $row['total_respuestas']; ?>" style="display: flex; justify-content: space-between;">
                                         <span><?php echo $row['opcion_encuesta']; ?></span>
-                                        <span><?php echo $porcentajeVotaron; ?>% (<?php echo $row['total_respuestas']; ?> Votos)</span>
-                                        <?php
-                                        if ($row['imagen_encuesta'] != "") { ?>
+                                        <span><?php echo $porcentajeVotaronRedondeado; ?>% (<?php echo $row['total_respuestas']; ?> Votos)</span>
+                                        <?php if ($row['imagen_encuesta'] != "") { ?>
                                             <img style="max-width: 100px;" class="rounded w-10" src="fotos_encuestas/<?php echo $row['imagen_encuesta']; ?>" alt="<?php echo $row['opcion_encuesta']; ?>">
                                         <?php } ?>
                                     </label>
                                     <div id="progre_<?php echo $contador; ?>">
                                         <div id="progress" class="progress" style="width:100%;">
-                                            <div id="progress-bar" class="progress-bar bg-info text-dark" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
-                                                <span id="texto"> </span>
+                                            <div id="progress-bar" class="progress-bar bg-info text-dark" role="progressbar" aria-valuenow="<?php echo $porcentajeVotaronRedondeado; ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $porcentajeVotaronRedondeado; ?>%;">
+                                                <span id="texto"><?php echo $porcentajeVotaronRedondeado; ?>%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </span>
-                            <?php   } ?>
+                            <?php
+                            }
+                            ?>
+
                             <hr>
 
 
@@ -104,32 +116,6 @@
 
     <?php include('includes/js.html'); ?>
     <script src="code_encuesta/js/encuesta.js"></script>
-    <script>
-        function CargarBarra() {
-            var increment = 1;
-            for (var contador = 1; contador <= <?php echo $contador; ?>; contador++) {
-                var pb = document.getElementById("progre_" + contador).querySelector("#progress-bar");
-                var p = document.getElementById("progre_" + contador).querySelector("#progress");
-
-                var pbw = parseInt(pb.style.width);
-                var pw = parseInt(p.style.width);
-
-                if (pbw >= pw) {
-                    clearInterval(barraprogreso);
-                    pb.setAttribute("class", "progress-bar bg-info text-dark");
-                } else {
-                    pbw += increment;
-                    pb.style.width = pbw + "%";
-                    pb.setAttribute("aria-valuenow", pbw);
-                }
-
-                var textElement = document.getElementById("progre_" + contador).querySelector("#texto");
-                textElement.innerHTML = pbw + "%";
-            }
-        }
-
-        var barraprogreso = setInterval(CargarBarra, 20);
-    </script>
 </body>
 
 </html>

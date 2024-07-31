@@ -1,8 +1,5 @@
 <?php
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
 include('connBD.php');
-
 
 function generarCodigoAleatorio($longitud = 20)
 {
